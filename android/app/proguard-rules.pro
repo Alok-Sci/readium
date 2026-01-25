@@ -29,3 +29,12 @@
 
 # Keep model classes
 -keep class com.alok.readium.** { *; }
+
+# Ignore warnings about missing Play Core classes (not used in this app)
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
+
+# Keep Play Store classes if they exist (optional dependencies)
+-keep class com.google.android.play.core.** { *; }
+-keep interface com.google.android.play.core.** { *; }
