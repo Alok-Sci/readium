@@ -1,0 +1,158 @@
+name: readium
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  http: ^1.6.0
+  html: ^0.15.6
+  flutter_html: ^3.0.0
+  receive_sharing_intent_plus: ^1.0.1
+  universal_code_viewer: ^1.0.1+3
+  flutter_launcher_icons: ^0.14.4
+  shimmer: ^3.0.0
+  cached_network_image: ^3.4.1
+  flutter_screenutil: ^5.9.3
+  url_launcher: ^6.3.2
+  sqflite: ^2.4.1
+  path: ^1.8.3
+  app_links: ^6.3.2
+  share_plus: ^10.1.2
+  shared_preferences: ^2.3.5
+  package_info_plus: ^8.1.2
+  file_picker: ^8.1.6
+  path_provider: ^2.1.5
+
+flutter_launcher_icons: 
+  android: 'ic_launcher'
+  image_path: 'assets/icons/icon.png'
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+  sqflite_common_ffi: ^2.3.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/fonts/sohne/Befonts-License.txt
+    - assets/fonts/source-code-pro/LICENSE.txt
+    - assets/fonts/source-serif-pro/LICENSE.txt
+    - assets/icons/
+    - assets/
+
+  # Custom fonts for the app. Family name kept simple as 'Sohne'.
+  fonts:
+    - family: sohne
+      fonts:
+        - asset: assets/fonts/sohne/TestSohne-Extraleicht-BF663d89cd3f5c5.otf
+          weight: 200
+        - asset: assets/fonts/sohne/TestSohne-ExtraleichtKursiv-BF663d89cd3f0d1.otf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Leicht-BF663d89cd4952e.otf
+          weight: 300
+        - asset: assets/fonts/sohne/TestSohne-LeichtKursiv-BF663d89cd9a361.otf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Buch-BF663d89cd32e6a.otf
+          weight: 400
+        - asset: assets/fonts/sohne/TestSohne-BuchKursiv-BF663d89cd3e887.otf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Halbfett-BF663d89cd2d67b.otf
+          weight: 600
+        - asset: assets/fonts/sohne/TestSohne-HalbfettKursiv-BF663d89cd41624.otf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Dreiviertelfett-BF663d89ccc5f66.otf
+          weight: 700
+        - asset: assets/fonts/sohne/TestSohne-DreiviertelfettKursiv-BF663d89cd2f687.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Fett-BF663d89cca89ff.otf
+          weight: 700
+        - asset: assets/fonts/sohne/TestSohne-FettKursiv-BF663d89cc64878.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Kraftig-BF663d89cd37e26.otf
+          weight: 800
+        - asset: assets/fonts/sohne/TestSohne-KraftigKursiv-BF663d89cd2bd4b.otf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/sohne/TestSohne-Extrafett-BF663d89cc9f2c0.otf
+          weight: 900
+        - asset: assets/fonts/sohne/TestSohne-ExtrafettKursiv-BF663d89ccb8000.otf
+          weight: 900
+          style: italic
+
+    - family: source-code-pro
+      fonts:
+        - asset: assets/fonts/source-code-pro/SourceCodePro-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/source-code-pro/SourceCodePro-Light.ttf
+          weight: 300
+        - asset: assets/fonts/source-code-pro/SourceCodePro-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/source-code-pro/SourceCodePro-Semibold.ttf
+          weight: 600
+        - asset: assets/fonts/source-code-pro/SourceCodePro-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/source-code-pro/SourceCodePro-Black.ttf
+          weight: 900
+
+    - family: source-serif-pro
+      fonts:
+        - asset: assets/fonts/source-serif-pro/SourceSerifPro-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/source-serif-pro/SourceSerifPro-Semibold.ttf
+          weight: 600
+        - asset: assets/fonts/source-serif-pro/SourceSerifPro-Bold.ttf
+          weight: 700
