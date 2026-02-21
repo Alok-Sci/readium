@@ -29,10 +29,7 @@ class _ArticleBottomBarState extends State<ArticleBottomBar> {
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
         border: Border(
-          top: BorderSide(
-            color: context.colorScheme.tertiary,
-            width: 1,
-          ),
+          top: BorderSide(color: context.colorScheme.tertiary, width: 1),
         ),
       ),
       // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
@@ -41,22 +38,25 @@ class _ArticleBottomBarState extends State<ArticleBottomBar> {
         children: [
           // Clap button
           _BottomBarButton(
-              assetIcon: AppAssets.clap,
-              label: _clapCount == 0 ? '--' : _clapCount.toString(),
-              tooltip: 'Claps'),
+            assetIcon: AppAssets.clap,
+            label: _clapCount == 0 ? '--' : _clapCount.toString(),
+            tooltip: 'Claps',
+          ),
 
           // Comment button
           _BottomBarButton(
-              assetIcon: AppAssets.comment,
-              label: _commentCount == 0 ? '--' : _commentCount.toString(),
-              tooltip: 'Comments'),
+            assetIcon: AppAssets.comment,
+            label: _commentCount == 0 ? '--' : _commentCount.toString(),
+            tooltip: 'Comments',
+          ),
 
           // Open in Medium (conditionally shown)
           if (!widget.hideOpenInMedium)
             _BottomBarButton(
-                assetIcon: AppAssets.redirect,
-                onTap: () => handleOpenInMedium(widget.articleUrl),
-                tooltip: 'Open in Medium'),
+              assetIcon: AppAssets.redirect,
+              onTap: () => handleOpenInMedium(widget.articleUrl),
+              tooltip: 'Open in Medium',
+            ),
 
           // Share button
           _BottomBarButton(
@@ -98,28 +98,29 @@ class _BottomBarButton extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (assetIcon != null)
-                      Image.asset(
-                        assetIcon!,
-                        width: 24,
-                        height: 24,
-                        color: context.colorScheme.onSurface,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (assetIcon != null)
+                    Image.asset(
+                      assetIcon!,
+                      width: 24,
+                      height: 24,
+                      color: context.colorScheme.onSurface,
+                    ),
+                  if (label != null) ...[
+                    const SizedBox(width: 4),
+                    Text(
+                      label!,
+                      style: context.textTheme.labelMedium?.copyWith(
+                        color: isActive
+                            ? context.colorScheme.secondary
+                            : context.colorScheme.tertiary,
                       ),
-                    if (label != null) ...[
-                      const SizedBox(width: 4),
-                      Text(
-                        label!,
-                        style: context.textTheme.labelMedium?.copyWith(
-                          color: isActive
-                              ? context.colorScheme.secondary
-                              : context.colorScheme.tertiary,
-                        ),
-                      ),
-                    ],
-                  ]),
+                    ),
+                  ],
+                ],
+              ),
             ),
           ),
         ),

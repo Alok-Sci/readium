@@ -6,7 +6,7 @@ class DisplaySettingsBottomSheet extends StatefulWidget {
   final String currentFontFamily;
   final double currentFontSize;
   final Function(String fontFamily, double fontSize, ThemeMode themeMode)
-      onSettingsChanged;
+  onSettingsChanged;
   final ThemeMode currentThemeMode;
 
   const DisplaySettingsBottomSheet({
@@ -29,15 +29,7 @@ class _DisplaySettingsBottomSheetState
 
   // Font size percentages - base size is 100% (18pt)
   final double _baseFontSize = 18.0;
-  final List<int> _fontSizePercentages = [
-    25,
-    50,
-    75,
-    100,
-    125,
-    150,
-    175,
-  ];
+  final List<int> _fontSizePercentages = [25, 50, 75, 100, 125, 150, 175];
 
   @override
   void initState() {
@@ -195,8 +187,10 @@ class _DisplaySettingsBottomSheetState
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: Icon(Icons.close_rounded,
-                      color: context.colorScheme.secondary),
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: context.colorScheme.secondary,
+                  ),
                   onPressed: () => Navigator.pop(context),
                   iconSize: 24,
                   padding: EdgeInsets.zero,
@@ -226,8 +220,9 @@ class _DisplaySettingsBottomSheetState
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.symmetric(
-                            vertical:
-                                BorderSide(color: context.colorScheme.tertiary),
+                            vertical: BorderSide(
+                              color: context.colorScheme.tertiary,
+                            ),
                           ),
                         ),
                         // Percentage display
@@ -270,10 +265,7 @@ class _DisplaySettingsBottomSheetState
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Appearance',
-                        style: context.textTheme.labelLarge,
-                      ),
+                      Text('Appearance', style: context.textTheme.labelLarge),
                       PopupMenuButton<ThemeMode>(
                         onSelected: (selectedMode) {
                           setState(() {
@@ -312,9 +304,11 @@ class _DisplaySettingsBottomSheetState
                                 ),
                                 const Spacer(),
                                 if (isSelected)
-                                  Icon(Icons.check,
-                                      color: context.colorScheme.primary,
-                                      size: 20),
+                                  Icon(
+                                    Icons.check,
+                                    color: context.colorScheme.primary,
+                                    size: 20,
+                                  ),
                               ],
                             ),
                           );
@@ -328,7 +322,7 @@ class _DisplaySettingsBottomSheetState
                             decorationColor: context.colorScheme.primary,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

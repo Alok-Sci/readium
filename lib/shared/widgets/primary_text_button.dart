@@ -22,20 +22,11 @@ class PrimaryTextButton extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.transparent,
-            border: Border.all(
-              width: 1,
-              color: context.colorScheme.primary,
-            ),
+            border: Border.all(width: 1, color: context.colorScheme.primary),
             borderRadius: BorderRadius.circular(100),
           ),
-          padding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: Text(
-            text,
-            style: context.textTheme.labelLarge,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Text(text, style: context.textTheme.labelLarge),
         ),
       ),
     );

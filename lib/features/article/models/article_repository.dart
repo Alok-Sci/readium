@@ -35,7 +35,8 @@ class ArticleRepository {
     final subtitleEl = body.querySelector('h2');
 
     final coverImg = body.querySelector(
-        'img[alt="Preview image"]'); // alt exactly "Preview image" [file:1]
+      'img[alt="Preview image"]',
+    ); // alt exactly "Preview image" [file:1]
     final tags = _extractTags(body);
 
     // 4. cleaned article HTML: use only the main content container if needed
@@ -76,9 +77,12 @@ class ArticleRepository {
   String _extractOriginalUrl(Element body) {
     // a element whose text ends with "Go to the original". [file:1]
     final link = body.querySelector('a');
-    final anchor = body.querySelectorAll('a').firstWhere(
-        (a) => a.text.trim().endsWith('Go to the original'),
-        orElse: () => link ?? Element.tag('a'));
+    final anchor = body
+        .querySelectorAll('a')
+        .firstWhere(
+          (a) => a.text.trim().endsWith('Go to the original'),
+          orElse: () => link ?? Element.tag('a'),
+        );
     final href = anchor.attributes['href'] ?? '';
     // Freedium sample keeps original Medium url including #bypass. [file:1]
     return href;
@@ -89,15 +93,17 @@ class ArticleRepository {
     for (final span in body.querySelectorAll('span')) {
       final parent = span.parent;
       if (parent == null) continue;
-      final spans =
-          parent.children.where((e) => e.localName == 'span').toList();
+      final spans = parent.children
+          .where((e) => e.localName == 'span')
+          .toList();
       if (spans.length < 3) continue;
       final dots = spans.where((s) => s.text.trim() == '·').length;
       if (dots == 2 && spans.length >= 5) {
         final readTime = spans[0].text.trim().split('~').last;
         final publishDate = spans[2].text.trim().split('(').first;
-        final memberText =
-            spans[4].text.trim().toLowerCase(); // "Free: Yes/No" [file:1]
+        final memberText = spans[4].text
+            .trim()
+            .toLowerCase(); // "Free: Yes/No" [file:1]
         final isMemberOnly = memberText.contains('free: no');
         return (readTime, publishDate, isMemberOnly);
       }
@@ -125,8 +131,9 @@ class ArticleRepository {
   }
 
   List<ArticleTag> _extractTags(Element body) {
-    final tagAnchors =
-        body.querySelectorAll('a[href*="https://medium.com/tag/"]');
+    final tagAnchors = body.querySelectorAll(
+      'a[href*="https://medium.com/tag/"]',
+    );
     return tagAnchors.map((a) {
       var href = a.attributes['href'] ?? '';
       href = href.replaceAll('#bypass', ''); // remove #bypass. [file:1]

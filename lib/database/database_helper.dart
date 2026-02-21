@@ -22,21 +22,17 @@ class DatabaseHelper {
   Future<String> getDatabasePath() async {
     final prefs = await SharedPreferences.getInstance();
     final customPath = prefs.getString(_customPathKey);
-    
+
     if (customPath != null && customPath.isNotEmpty) {
       return join(customPath, 'readium.db');
     }
-    
+
     return join(await getDatabasesPath(), 'readium.db');
   }
 
   Future<Database> _initDatabase() async {
     String path = await getDatabasePath();
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   Future<void> changeDatabasePath(String newPath) async {
@@ -48,7 +44,7 @@ class DatabaseHelper {
 
     // Get old database path
     final oldPath = await getDatabasePath();
-    
+
     // Save new path to preferences
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_customPathKey, newPath);
@@ -86,7 +82,7 @@ class DatabaseHelper {
 
   Future<int> insertArticleHistory(ArticleHistory article) async {
     final db = await database;
-    
+
     // Check if article already exists
     final existing = await db.query(
       'article_history',
@@ -122,11 +118,7 @@ class DatabaseHelper {
 
   Future<int> deleteArticleHistory(int id) async {
     final db = await database;
-    return await db.delete(
-      'article_history',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await db.delete('article_history', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> clearAllHistory() async {

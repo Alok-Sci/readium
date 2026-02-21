@@ -10,11 +10,7 @@ class ArticleCard extends StatelessWidget {
   final Article article;
   final VoidCallback onTap;
 
-  const ArticleCard({
-    super.key,
-    required this.article,
-    required this.onTap,
-  });
+  const ArticleCard({super.key, required this.article, required this.onTap});
 
   String get _displayAuthor {
     if (article.authorName != null) {
@@ -64,7 +60,7 @@ class ArticleCard extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             // Main content row
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +87,9 @@ class ArticleCard extends StatelessWidget {
                         Text(
                           article.subtitle,
                           style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: context.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
                             height: 1.4,
                           ),
                           maxLines: 2,
@@ -102,7 +100,7 @@ class ArticleCard extends StatelessWidget {
                   ),
                 ),
                 16.width,
-                
+
                 // Cover image
                 if (article.imageUrl != null)
                   ClipRRect(
@@ -117,23 +115,17 @@ class ArticleCard extends StatelessWidget {
                   ),
               ],
             ),
-            
+
             // Bottom metadata row
             Row(
               children: [
                 if (article.isMemberOnly) ...[
-                  Image.asset(
-                    AppAssets.star,
-                    height: 18,
-                  ),
+                  Image.asset(AppAssets.star, height: 18),
                   8.width,
                 ],
-                Text(
-                  article.publishDate,
-                  style: context.textTheme.labelMedium,
-                ),
+                Text(article.publishDate, style: context.textTheme.labelMedium),
                 const Spacer(),
-                
+
                 // Share button
                 IconButton(
                   icon: Image.asset(
@@ -143,7 +135,8 @@ class ArticleCard extends StatelessWidget {
                     width: 24,
                   ),
                   tooltip: 'Share',
-                  onPressed: () => handleShareArticle(article.title, article.fullUrl),
+                  onPressed: () =>
+                      handleShareArticle(article.title, article.fullUrl),
                 ),
               ],
             ),

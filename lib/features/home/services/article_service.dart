@@ -69,7 +69,9 @@ class ArticleService {
       if (metadataDiv == null) return null;
 
       // Extract author info (if exists)
-      final authorLink = metadataDiv.querySelector('a[href^="https://medium.com"]');
+      final authorLink = metadataDiv.querySelector(
+        'a[href^="https://medium.com"]',
+      );
       String? authorName;
       String? authorImageUrl;
       if (authorLink != null) {
@@ -87,7 +89,7 @@ class ArticleService {
 
       for (final span in spans) {
         final text = span.text.trim();
-        
+
         // Check for read time (contains "min read")
         if (text.contains('min read')) {
           readTime = text.replaceAll('~', '');
@@ -101,9 +103,9 @@ class ArticleService {
           isMemberOnly = text.contains('No');
         }
         // // Check if it's author name (not a separator and not other metadata)
-        // else if (text.isNotEmpty && 
-        //          text != '·' && 
-        //          !text.contains('min read') && 
+        // else if (text.isNotEmpty &&
+        //          text != '·' &&
+        //          !text.contains('min read') &&
         //          !text.contains('Free:') &&
         //          authorName == null) {
         //   authorName = text;

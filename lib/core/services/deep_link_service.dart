@@ -17,7 +17,7 @@ class DeepLinkService {
   /// Initialize deep link handling
   Future<void> initialize(Function(String) onLinkReceived) async {
     _onLinkReceived = onLinkReceived;
-    
+
     // Handle links when app is already running
     _linkSubscription = _appLinks.uriLinkStream.listen(
       (Uri uri) {
@@ -42,9 +42,9 @@ class DeepLinkService {
   /// Handle incoming deep link
   void _handleIncomingLink(Uri uri) {
     debugPrint('Received deep link: $uri');
-    
+
     String? mediumUrl;
-    
+
     // Handle different types of links
     if (uri.scheme == 'readium') {
       // Custom scheme: readium://medium.com/article-path
@@ -82,20 +82,20 @@ class DeepLinkService {
     final encodedUrl = Uri.encodeComponent(mediumUrl);
     final androidStore = Uri.encodeComponent(AppConfig.androidStoreUrl);
     final iosStore = Uri.encodeComponent(AppConfig.iosStoreUrl);
-    
+
     return '${AppConfig.webFallbackUrl}/universal-link.html?url=$encodedUrl&android_store=$androidStore&ios_store=$iosStore';
   }
-  
+
   /// Generate a shareable link that works across platforms
   String generateShareableLink(String mediumUrl) {
     // For sharing, we use the universal link that handles app detection
     return generateUniversalLink(mediumUrl);
   }
-  
+
   /// Launch store URL based on platform
   Future<void> launchStoreUrl() async {
     String storeUrl;
-    
+
     if (Platform.isAndroid) {
       storeUrl = AppConfig.androidStoreUrl;
     } else if (Platform.isIOS) {
@@ -103,7 +103,7 @@ class DeepLinkService {
     } else {
       storeUrl = AppConfig.webFallbackUrl;
     }
-    
+
     final uri = Uri.parse(storeUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -111,7 +111,7 @@ class DeepLinkService {
       debugPrint('Could not launch store URL: $storeUrl');
     }
   }
-  
+
   /// Check if the current platform supports the app
   bool isPlatformSupported() {
     return Platform.isAndroid || Platform.isIOS;

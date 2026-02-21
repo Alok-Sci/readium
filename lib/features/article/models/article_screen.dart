@@ -41,7 +41,10 @@ class _ArticleScreenState extends State<ArticleScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: context.colorScheme.tertiary),
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: context.colorScheme.tertiary,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -56,8 +59,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Error: ${snapshot.error}',
-                      style: context.textTheme.labelSmall!
-                          .copyWith(backgroundColor: Colors.transparent),
+                      style: context.textTheme.labelSmall!.copyWith(
+                        backgroundColor: Colors.transparent,
+                      ),
                     ),
                   ),
                 );
@@ -86,7 +90,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                       'script',
                       'iframe',
                       'button',
-                      'nav'
+                      'nav',
                     },
                     extensions: [
                       TagExtension(
@@ -124,21 +128,22 @@ class _ArticleScreenState extends State<ArticleScreen> {
                           // Check if this is a story list link
                           if (href.contains('https://medium.com/') &&
                               href.contains('/list/')) {
-                            final h2Element =
-                                tagCtx.element?.querySelector('h2');
+                            final h2Element = tagCtx.element?.querySelector(
+                              'h2',
+                            );
                             if (h2Element != null) {
                               final title = h2Element.text.trim();
 
                               // Extract background image URL from descendant div's style attribute
                               String? imageUrl;
-                              final divElements =
-                                  tagCtx.element?.querySelectorAll('div');
+                              final divElements = tagCtx.element
+                                  ?.querySelectorAll('div');
                               if (divElements != null) {
                                 for (final div in divElements) {
                                   final style = div.attributes['style'] ?? '';
                                   final urlMatch = RegExp(
-                                          r"background-image:\s*url\('([^']+)'\)")
-                                      .firstMatch(style);
+                                    r"background-image:\s*url\('([^']+)'\)",
+                                  ).firstMatch(style);
                                   if (urlMatch != null) {
                                     imageUrl = urlMatch.group(1);
                                     break;
@@ -154,12 +159,15 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
                               return Container(
                                 margin: const EdgeInsets.symmetric(
-                                    horizontal: 24, vertical: 16),
+                                  horizontal: 24,
+                                  vertical: 16,
+                                ),
                                 decoration: BoxDecoration(
                                   color: context.colorScheme.tertiary,
                                   border: Border.all(
-                                      color: context
-                                          .colorScheme.tertiaryContainer),
+                                    color:
+                                        context.colorScheme.tertiaryContainer,
+                                  ),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
                                 child: Column(
@@ -192,22 +200,13 @@ class _ArticleScreenState extends State<ArticleScreen> {
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: image,
-                                        ),
+                                        Expanded(flex: 3, child: image),
                                         5.width,
-                                        Expanded(
-                                          flex: 2,
-                                          child: image,
-                                        ),
+                                        Expanded(flex: 2, child: image),
                                         5.width,
-                                        Expanded(
-                                          flex: 1,
-                                          child: image,
-                                        ),
+                                        Expanded(flex: 1, child: image),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               );
@@ -222,14 +221,15 @@ class _ArticleScreenState extends State<ArticleScreen> {
                             ),
                           );
                         },
-                      )
+                      ),
                     ],
                     style: {
                       // paragraph
                       'p': Style(
                         color: context.textTheme.bodyLarge!.color,
-                        fontSize:
-                            FontSize(context.textTheme.bodyLarge!.fontSize!),
+                        fontSize: FontSize(
+                          context.textTheme.bodyLarge!.fontSize!,
+                        ),
                         fontFamily: context.textTheme.bodyLarge!.fontFamily,
                         fontFamilyFallback:
                             context.textTheme.bodyLarge!.fontFamilyFallback,
@@ -242,19 +242,22 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         ),
                       ),
                       'li': Style(
-                          color: context.textTheme.bodyLarge!.color,
-                          fontSize:
-                              FontSize(context.textTheme.bodyLarge!.fontSize!),
-                          fontFamily: context.textTheme.bodyLarge!.fontFamily,
-                          fontFamilyFallback:
-                              context.textTheme.bodyLarge!.fontFamilyFallback,
-                          margin: Margins.only(top: 12, bottom: -8.28),
-                          listStylePosition: ListStylePosition.outside),
+                        color: context.textTheme.bodyLarge!.color,
+                        fontSize: FontSize(
+                          context.textTheme.bodyLarge!.fontSize!,
+                        ),
+                        fontFamily: context.textTheme.bodyLarge!.fontFamily,
+                        fontFamilyFallback:
+                            context.textTheme.bodyLarge!.fontFamilyFallback,
+                        margin: Margins.only(top: 12, bottom: -8.28),
+                        listStylePosition: ListStylePosition.outside,
+                      ),
                       // h3 section heading
                       'h3': Style(
                         color: context.textTheme.headlineMedium!.color,
                         fontSize: FontSize(
-                            context.textTheme.headlineMedium!.fontSize!),
+                          context.textTheme.headlineMedium!.fontSize!,
+                        ),
                         fontFamily:
                             context.textTheme.headlineMedium!.fontFamily,
                         fontWeight:
@@ -270,7 +273,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
                       'h4': Style(
                         color: context.textTheme.headlineSmall!.color,
                         fontSize: FontSize(
-                            context.textTheme.headlineSmall!.fontSize!),
+                          context.textTheme.headlineSmall!.fontSize!,
+                        ),
                         fontFamily: context.textTheme.headlineSmall!.fontFamily,
                         fontWeight: context.textTheme.headlineSmall!.fontWeight,
                         margin: Margins.only(
@@ -287,23 +291,26 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         margin: Margins.only(right: 24, left: 24, top: 40),
                         padding: HtmlPaddings.all(32),
                         lineHeight: LineHeight.number(
-                            context.textTheme.labelSmall!.height!),
+                          context.textTheme.labelSmall!.height!,
+                        ),
                         border: Border.all(
-                            width: 1,
-                            color:
-                                context.textTheme.bodySmall!.backgroundColor!),
+                          width: 1,
+                          color: context.textTheme.bodySmall!.backgroundColor!,
+                        ),
                       ),
                       // inline code (no language-*)
                       'code': Style(
                         backgroundColor:
                             context.textTheme.bodySmall!.backgroundColor,
                         color: context.textTheme.bodySmall!.color,
-                        fontSize:
-                            FontSize(context.textTheme.bodySmall!.fontSize!),
+                        fontSize: FontSize(
+                          context.textTheme.bodySmall!.fontSize!,
+                        ),
                         letterSpacing:
                             context.textTheme.bodySmall!.letterSpacing,
                         lineHeight: LineHeight.number(
-                            context.textTheme.bodySmall!.height!),
+                          context.textTheme.bodySmall!.height!,
+                        ),
                         fontFamily: context.textTheme.bodySmall!.fontFamily,
                         fontFamilyFallback:
                             context.textTheme.bodySmall!.fontFamilyFallback,
@@ -324,28 +331,19 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         ),
                       ),
                       // anchor
-                      'a': Style(
-                        color: context.textTheme.bodyLarge!.color!,
-                      ),
+                      'a': Style(color: context.textTheme.bodyLarge!.color!),
                       // image
                       'img': Style(
-                        margin: Margins.only(
-                          top: 40,
-                          left: 24,
-                          right: 24,
-                        ),
+                        margin: Margins.only(top: 40, left: 24, right: 24),
                       ),
                       'figcaption': Style(
                         fontFamily: context.textTheme.labelMedium!.fontFamily,
-                        fontSize:
-                            FontSize(context.textTheme.labelMedium!.fontSize!),
+                        fontSize: FontSize(
+                          context.textTheme.labelMedium!.fontSize!,
+                        ),
                         color: context.textTheme.labelMedium!.color!,
                         textAlign: TextAlign.center,
-                        margin: Margins.only(
-                          top: 10,
-                          left: 24,
-                          right: 24,
-                        ),
+                        margin: Margins.only(top: 10, left: 24, right: 24),
                       ),
                     },
                   ),

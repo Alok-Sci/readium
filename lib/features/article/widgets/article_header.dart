@@ -12,11 +12,7 @@ class ArticleHeader extends StatelessWidget {
   final ArticleData article;
   final double? textScaleFactor;
 
-  const ArticleHeader({
-    required this.article,
-    this.textScaleFactor,
-    super.key,
-  });
+  const ArticleHeader({required this.article, this.textScaleFactor, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +24,9 @@ class ArticleHeader extends StatelessWidget {
 
         // Title
         MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
-          ),
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScaleFactor ?? 1.0)),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Padding(
@@ -38,19 +34,16 @@ class ArticleHeader extends StatelessWidget {
                 top: 32.32,
                 bottom: 0, // -
               ), // title margins [file:1]
-              child: Text(
-                article.title,
-                style: context.textTheme.displayLarge,
-              ),
+              child: Text(article.title, style: context.textTheme.displayLarge),
             ),
           ),
         ),
 
         // Subtitle
         MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
-          ),
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScaleFactor ?? 1.0)),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Padding(
@@ -68,8 +61,10 @@ class ArticleHeader extends StatelessWidget {
 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Text('${article.readTime} · ${article.publishDate}',
-              style: context.textTheme.labelMedium),
+          child: Text(
+            '${article.readTime} · ${article.publishDate}',
+            style: context.textTheme.labelMedium,
+          ),
         ),
         const SizedBox(height: 12),
         // Author + meta
@@ -87,21 +82,17 @@ class ArticleHeader extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    article.authorName,
-                    style: context.textTheme.labelLarge,
-                  ),
+                  Text(article.authorName, style: context.textTheme.labelLarge),
                 ],
               ),
               12.width, // gap [file:1]
-
               // follow button
               PrimaryTextButton(
                 text: "Follow",
                 onPressed: () {
                   launchUrl(Uri.parse(article.authorUrl));
                 },
-              )
+              ),
             ],
           ),
         ),

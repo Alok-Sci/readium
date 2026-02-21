@@ -11,7 +11,12 @@ void main() {
 
     test('should identify valid Medium URLs', () {
       expect(deepLinkService.isMediumUrl('https://medium.com/article'), true);
-      expect(deepLinkService.isMediumUrl('https://towardsdatascience.medium.com/article'), true);
+      expect(
+        deepLinkService.isMediumUrl(
+          'https://towardsdatascience.medium.com/article',
+        ),
+        true,
+      );
       expect(deepLinkService.isMediumUrl('http://medium.com/article'), true);
       expect(deepLinkService.isMediumUrl('https://example.com/article'), false);
       expect(deepLinkService.isMediumUrl('invalid-url'), false);

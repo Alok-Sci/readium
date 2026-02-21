@@ -36,7 +36,7 @@ void main() {
         publishDate: 'Jan 1, 2024',
         isMemberOnly: false,
         tags: [
-          ArticleTag(title: 'Flutter', href: 'https://medium.com/tag/flutter')
+          ArticleTag(title: 'Flutter', href: 'https://medium.com/tag/flutter'),
         ],
         cleanedBodyHtml: '<p>Test content</p>',
       );

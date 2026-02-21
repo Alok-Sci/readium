@@ -40,19 +40,12 @@ class ArticleListElement extends StatelessWidget {
         children: [
           20.height,
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Text(
-              title,
-              style: context.textTheme.headlineSmall,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(title, style: context.textTheme.headlineSmall),
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: PrimaryTextButton(
               text: 'View List',
               onPressed: () {
@@ -64,22 +57,13 @@ class ArticleListElement extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                flex: 3,
-                child: image,
-              ),
+              Expanded(flex: 3, child: image),
               5.width,
-              Expanded(
-                flex: 2,
-                child: image,
-              ),
+              Expanded(flex: 2, child: image),
               5.width,
-              Expanded(
-                flex: 1,
-                child: image,
-              ),
+              Expanded(flex: 1, child: image),
             ],
-          )
+          ),
         ],
       ),
     );

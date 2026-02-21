@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/Alok-Sci/readium"><img src="https://img.shields.io/github/stars/Alok-Sci/readium?style=flat&label=stars&labelColor=0F172A&color=8B5CF6&logo=github&logoColor=fff" alt="github"></a>
   <a href="https://opensource.org/licenses/GPL-3.0"><img src="https://img.shields.io/badge/License-GPL%20v3-22C55E.svg?labelColor=0F172A&style=flat" alt="license"></a>
-  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-02569B?style=flat&logo=flutter&logoColor=fff&labelColor=0F172A" alt="flutter"></a>
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.6.0+-02569B?style=flat&logo=flutter&logoColor=fff&labelColor=0F172A" alt="flutter"></a>
   <a href="https://github.com/Alok-Sci/readium"><img src="https://img.shields.io/github/contributors/Alok-Sci/readium?logo=github&logoColor=fff&labelColor=0F172A&color=F59E0B&style=flat" alt="contributors"></a>
 </p>
 
@@ -25,38 +25,54 @@
 
 ---
 
+## 📱 Platform Support
+
+> ⚠️ **Android Only**  
+> Readium currently supports **Android devices only**.
+
+---
+
 ## Features
 
-- 📖 **Free Access** – Read Medium member-only articles without subscription
-- 🎨 **Medium-like UI** – Familiar typography and clean design
-- 🌓 **Dark/Light Theme** – Comfortable reading in any lighting
-- 💾 **Reading History** – Track articles you've read
-- 🔗 **Deep Linking** – Share articles seamlessly
-- ⚙️ **Customizable** – Adjust font size and appearance
-- 💻 **Code Highlighting** – Beautiful syntax highlighting for code blocks
-- 📱 **Cross-platform** – Available on Android and iOS
+- 📖 **Free Access** – Read Medium member-only articles without subscription  
+- 🎨 **Medium-like UI** – Familiar typography and clean design  
+- 🌓 **Dark/Light Theme** – Comfortable reading in any lighting  
+- 💾 **Reading History** – Track articles you've read  
+- 🔗 **Deep Linking** – Share articles seamlessly  
+- ⚙️ **Customizable** – Adjust font size and appearance  
+- 💻 **Code Highlighting** – Beautiful syntax highlighting for code blocks  
+
+---
 
 ## Getting Started
 
 ### For Users
 
-1. Download the app from Google Play Store or App Store
+1. Install the APK build (or build locally)
 2. Paste any Medium article URL
 3. Read for free – even member-only articles!
 4. Share with friends using Readium
 
-### For Developers
+---
 
-#### Prerequisites
+## For Developers
 
-- Flutter SDK (>=3.6.0)
-- Dart SDK (>=3.6.0)
-- Android Studio / VS Code
-- Xcode (for iOS)
+### Prerequisites
 
-#### Installation
+Make sure you have the following installed:
+
+- **Flutter SDK >= 3.6.0**
+- **Dart SDK >= 3.6.0**
+- **Android Studio (latest stable)**
+- **Android SDK**
+- Android device or emulator
+
+Verify your setup:
 
 ```bash
+flutter doctor
+
+#### Installation
 # Clone the repository
 git clone https://github.com/Alok-Sci/readium.git
 cd readium
@@ -64,35 +80,26 @@ cd readium
 # Install dependencies
 flutter pub get
 
-# Run the app
+# Run the app (Android only)
 flutter run
-```
 
 #### Build
-
-```bash
-# Android
 flutter build apk --release
-
-# iOS
-flutter build ios --release
 ```
 
 ## Architecture
 
-```
 lib/
 ├── core/              # Core functionality
-│   ├── config/       # App configuration
-│   ├── services/     # Business logic
-│   └── theme/        # UI theming
-├── features/         # Feature modules
-│   ├── article/      # Article reading
-│   ├── history/      # Reading history
-│   ├── home/         # Home screen
-│   └── settings/     # App settings
-└── main.dart         # Entry point
-```
+│   ├── config/        # App configuration
+│   ├── services/      # Business logic
+│   └── theme/         # UI theming
+├── features/          # Feature modules
+│   ├── article/       # Article reading
+│   ├── history/       # Reading history
+│   ├── home/          # Home screen
+│   └── settings/      # App settings
+└── main.dart          # Entry point
 
 ### Tech Stack
 

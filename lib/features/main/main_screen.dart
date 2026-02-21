@@ -69,18 +69,27 @@ class _MainScreenState extends State<MainScreen> {
         unselectedItemColor: context.colorScheme.secondary,
         items: [
           BottomNavigationBarItem(
-            icon: Image.asset(AppAssets.home,
-                color: context.colorScheme.secondary,height: 24),
+            icon: Image.asset(
+              AppAssets.home,
+              color: context.colorScheme.secondary,
+              height: 24,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(AppAssets.articles,
-                color: context.colorScheme.secondary,height: 24),
+            icon: Image.asset(
+              AppAssets.articles,
+              color: context.colorScheme.secondary,
+              height: 24,
+            ),
             label: 'History',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(AppAssets.setting,
-                color: context.colorScheme.secondary,height: 24),
+            icon: Image.asset(
+              AppAssets.setting,
+              color: context.colorScheme.secondary,
+              height: 24,
+            ),
             label: 'Settings',
           ),
         ],

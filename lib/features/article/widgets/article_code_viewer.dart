@@ -15,10 +15,7 @@ class ArticleCodeViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24.0,
-        vertical: 12.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       child: UniversalCodeViewer(
         showLineNumbers: false,
         code: tagCtx.element!.text,

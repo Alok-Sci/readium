@@ -29,10 +29,7 @@ class ShimmerNetworkImage extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: fit,
-            ),
+            image: DecorationImage(image: imageProvider, fit: fit),
           ),
         ),
       ),

@@ -91,7 +91,8 @@ class _MyAppState extends State<MyApp> {
         home: MainScreen(),
         routes: {
           '/article': (context) {
-            final String mediumUrl = ModalRoute.of(context)!.settings.arguments as String;
+            final String mediumUrl =
+                ModalRoute.of(context)!.settings.arguments as String;
             return ArticleScreen(mediumUrl: mediumUrl);
           },
         },

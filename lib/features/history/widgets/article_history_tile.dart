@@ -118,16 +118,10 @@ class ArticleHistoryTile extends StatelessWidget {
             Row(
               children: [
                 if (isMemberOnly) ...[
-                  Image.asset(
-                    AppAssets.star,
-                    height: 18,
-                  ),
+                  Image.asset(AppAssets.star, height: 18),
                   8.width,
                 ],
-                Text(
-                  publishDate,
-                  style: context.textTheme.labelMedium,
-                ),
+                Text(publishDate, style: context.textTheme.labelMedium),
                 Spacer(),
                 // Text(
                 //   readTime,
@@ -175,13 +169,17 @@ class ArticleHistoryTile extends StatelessWidget {
                       value: 'open_medium',
                       child: Row(
                         children: [
-                          Image.asset(AppAssets.redirect,
-                              height: 20,
-                              width: 20,
-                              color: context.colorScheme.primary),
+                          Image.asset(
+                            AppAssets.redirect,
+                            height: 20,
+                            width: 20,
+                            color: context.colorScheme.primary,
+                          ),
                           SizedBox(width: 12),
-                          Text('Open in medium',
-                              style: context.textTheme.labelLarge),
+                          Text(
+                            'Open in medium',
+                            style: context.textTheme.labelLarge,
+                          ),
                         ],
                       ),
                     ),
@@ -189,17 +187,19 @@ class ArticleHistoryTile extends StatelessWidget {
                       value: 'share',
                       child: Row(
                         children: [
-                          Image.asset(AppAssets.share,
-                              height: 20,
-                              width: 20,
-                              color: context.colorScheme.primary),
+                          Image.asset(
+                            AppAssets.share,
+                            height: 20,
+                            width: 20,
+                            color: context.colorScheme.primary,
+                          ),
                           SizedBox(width: 12),
                           Text('Share', style: context.textTheme.labelLarge),
                         ],
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ],

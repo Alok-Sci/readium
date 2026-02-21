@@ -18,7 +18,7 @@ void main() {
     // Verify that our home screen loads with the expected elements
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Enter Medium Article URL'), findsOneWidget);
-    
+
     // Verify history button is present
     expect(find.byIcon(Icons.history), findsOneWidget);
   });

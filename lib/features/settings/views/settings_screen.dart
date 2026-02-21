@@ -130,9 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.red,
-            ),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: Text('Clear'),
           ),
         ],
@@ -169,11 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Image.asset(
-              'assets/icons/icon.png',
-              width: 40,
-              height: 40,
-            ),
+            Image.asset('assets/icons/icon.png', width: 40, height: 40),
             SizedBox(width: 12),
             Text('About Readium'),
           ],
@@ -182,10 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Version: $_appVersion',
-              style: context.textTheme.bodyMedium,
-            ),
+            Text('Version: $_appVersion', style: context.textTheme.bodyMedium),
             SizedBox(height: 8),
             Text(
               'Build Date: $_buildDate',
@@ -237,12 +228,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  "Settings",
-                  style: context.textTheme.displayMedium,
-                ),
+                child: Text("Settings", style: context.textTheme.displayMedium),
               ),
-              30.height
+              30.height,
             ],
           ),
           bottom: PreferredSize(
@@ -253,9 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -269,12 +255,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                "Settings",
-                style: context.textTheme.displayMedium,
-              ),
+              child: Text("Settings", style: context.textTheme.displayMedium),
             ),
-            30.height
+            30.height,
           ],
         ),
         bottom: PreferredSize(
@@ -288,7 +271,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Column(
         children: [
           20.height,
-          
+
           // Appearance Setting
           SettingsTile(
             title: 'Appearance',
@@ -317,14 +300,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: isSelected
                               ? context.colorScheme.primary
                               : context.colorScheme.onSurface,
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w400,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w400,
                         ),
                       ),
                       const Spacer(),
                       if (isSelected)
-                        Icon(Icons.check,
-                            color: context.colorScheme.primary, size: 20),
+                        Icon(
+                          Icons.check,
+                          color: context.colorScheme.primary,
+                          size: 20,
+                        ),
                     ],
                   ),
                 );
@@ -368,13 +355,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: _showAboutDialog,
             leadingIcon: Icons.info_outline_rounded,
           ),
-          
+
           Spacer(),
-          
+
           // Footer
-RichText(
+          RichText(
             text: TextSpan(
-            style: context.textTheme.labelMedium,
+              style: context.textTheme.labelMedium,
               children: [
                 TextSpan(text: 'Made with ❤️ by '),
                 TextSpan(
@@ -422,9 +409,7 @@ class SettingsTile extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
       title: Text(
         title,
-        style: context.textTheme.headlineSmall!.copyWith(
-          fontSize: 16,
-        ),
+        style: context.textTheme.headlineSmall!.copyWith(fontSize: 16),
       ),
       subtitle: Text(
         subtitle,
@@ -432,9 +417,12 @@ class SettingsTile extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: trailingWidget ??
-          Icon(Icons.chevron_right_rounded,
-              color: context.colorScheme.secondary),
+      trailing:
+          trailingWidget ??
+          Icon(
+            Icons.chevron_right_rounded,
+            color: context.colorScheme.secondary,
+          ),
       onTap: onTap,
     );
   }
