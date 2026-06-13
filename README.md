@@ -9,10 +9,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Alok-Sci/readium"><img src="https://img.shields.io/github/stars/Alok-Sci/readium?style=flat&label=stars&labelColor=0F172A&color=8B5CF6&logo=github&logoColor=fff" alt="github"></a>
+  <a href="https://github.com/Alok-Sci/readium"><img src="https://img.shields.io/github/stars/Alok-Sci/readium?style=social&label=stars" alt="github stars"></a>
   <a href="https://opensource.org/licenses/GPL-3.0"><img src="https://img.shields.io/badge/License-GPL%20v3-22C55E.svg?labelColor=0F172A&style=flat" alt="license"></a>
-  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.6.0+-02569B?style=flat&logo=flutter&logoColor=fff&labelColor=0F172A" alt="flutter"></a>
-  <a href="https://github.com/Alok-Sci/readium"><img src="https://img.shields.io/github/contributors/Alok-Sci/readium?logo=github&logoColor=fff&labelColor=0F172A&color=F59E0B&style=flat" alt="contributors"></a>
+  <a href="https://github.com/Alok-Sci/readium/releases"><img src="https://img.shields.io/badge/version-1.0.0-10B981?style=flat&labelColor=0F172A" alt="app version"></a>
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.27.1-02569B?style=flat&logo=flutter&logoColor=fff&labelColor=0F172A" alt="flutter"></a>
+  <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.6.0-0175C2?style=flat&logo=dart&logoColor=fff&labelColor=0F172A" alt="dart"></a>
+  <a href="https://github.com/Alok-Sci/readium"><img src="https://img.shields.io/github/contributors/Alok-Sci/readium?logo=github&logoColor=fff&labelColor=0F172A&color=F59E0B&style=social" alt="contributors"></a>
 </p>
 
 <p align="center">
@@ -61,7 +63,7 @@
 
 Make sure you have the following installed:
 
-- **Flutter SDK >= 3.6.0**
+- **Flutter SDK >= 3.27.1**
 - **Dart SDK >= 3.6.0**
 - **Android Studio (latest stable)**
 - **Android SDK**
