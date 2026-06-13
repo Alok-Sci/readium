@@ -27,11 +27,11 @@ class ArticleService {
     final articles = <Article>[];
 
     // Find the grid container
-    final gridDiv = document.querySelector('div.grid');
+    final gridDiv = document.querySelector('div.feed');
     if (gridDiv == null) return articles;
 
     // Find all article cards
-    final articleCards = gridDiv.querySelectorAll('div.p-6');
+    final articleCards = gridDiv.querySelectorAll('a.card-link');
 
     for (final card in articleCards) {
       try {
@@ -49,75 +49,70 @@ class ArticleService {
   }
 
   /// Parses a single article card
-  static Article? _parseArticleCard(Element card) {
+  static Article? _parseArticleCard(Element article) {
     try {
-      // Extract endpoint from the main link
-      final mainLink = card.querySelector('a.group');
-      if (mainLink == null) return null;
-      final endpoint = mainLink.attributes['href'] ?? '';
+      // Extract endpoint
+      final endpoint = article.attributes['href'] ?? '';
 
-      // Extract image URL
-      final img = card.querySelector('img');
+      // Extract Card
+      final card = article.querySelector('article.card');
+      if (card == null) return null;
+
+      // Extract image URL from thumb
+      final thumb = card.querySelector('.thumb');
+      final img = thumb?.querySelector('.thumb-img');
       final imageUrl = img?.attributes['src'];
 
+      // Extract read time from thumb
+      final readTimeSpan = thumb?.querySelector('.read-time');
+      final readTime = readTimeSpan?.text.trim() ?? '';
+
+      // Extract body
+      final body = card.querySelector('.body');
+      if (body == null) return null;
+
+      // Extract topic
+      final topicElement = body.querySelector('.topic');
+      final topic = topicElement?.text.trim() ?? '';
+
       // Extract title
-      final titleElement = card.querySelector('h3');
-      final title = titleElement?.text.trim() ?? '';
-
-      // Extract metadata container
-      final metadataDiv = card.querySelector('div.flex.flex-wrap');
-      if (metadataDiv == null) return null;
-
-      // Extract author info (if exists)
-      final authorLink = metadataDiv.querySelector('a[href^="https://medium.com"]');
-      String? authorName;
-      String? authorImageUrl;
-      if (authorLink != null) {
-        final pubImg = authorLink.querySelector('img');
-        authorImageUrl = pubImg?.attributes['src'];
-        final pubText = authorLink.querySelector('p');
-        authorName = pubText?.text.trim();
-      }
-
-      // Extract all text spans
-      final spans = metadataDiv.querySelectorAll('span');
-      String readTime = '';
-      String publishDate = '';
-      bool isMemberOnly = false;
-
-      for (final span in spans) {
-        final text = span.text.trim();
-        
-        // Check for read time (contains "min read")
-        if (text.contains('min read')) {
-          readTime = text.replaceAll('~', '');
-        }
-        // Check for publish date (contains date patterns)
-        else if (text.contains('202') || text.contains('Updated:')) {
-          publishDate = text.split('(').first;
-        }
-        // Check for member-only status
-        else if (text.startsWith('Free:')) {
-          isMemberOnly = text.contains('No');
-        }
-        // // Check if it's author name (not a separator and not other metadata)
-        // else if (text.isNotEmpty && 
-        //          text != '·' && 
-        //          !text.contains('min read') && 
-        //          !text.contains('Free:') &&
-        //          authorName == null) {
-        //   authorName = text;
-        // }
-      }
+      final titleElement = body.querySelector('.title');
+      final title = titleElement?.text.trim().replaceAll('"', '') ?? '';
 
       // Extract subtitle
-      final subtitleElement = card.querySelector('p.mt-6.leading-normal');
+      final subtitleElement = body.querySelector('.excerpt');
       final subtitle = subtitleElement?.text.trim() ?? '';
+
+      // Extract metadata
+      final metadataDiv = body.querySelector('.meta');
+      if (metadataDiv == null) return null;
+
+      // Extract author info
+      final authorDiv = metadataDiv.querySelector('.author');
+      String? authorName;
+      String? authorImageUrl;
+      
+      if (authorDiv != null) {
+        // Try to get author image (if exists)
+        final authorImg = authorDiv.querySelector('img');
+        authorImageUrl = authorImg?.attributes['src'];
+        
+        // Get author name from text content
+        authorName = authorDiv.text.trim();
+      }
+
+      // Extract publish date
+      final dateSpan = metadataDiv.querySelector('.date');
+      final publishDate = dateSpan?.text.trim() ?? '';
+
+      // Member-only status (currently not in new HTML, default to false)
+      bool isMemberOnly = false;
 
       return Article(
         endpoint: endpoint,
         imageUrl: imageUrl,
         title: title,
+        topic: topic,
         authorName: authorName,
         authorImageUrl: authorImageUrl,
         readTime: readTime,
