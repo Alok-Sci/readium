@@ -361,11 +361,11 @@ class _SizeControlButton extends StatelessWidget {
     return Expanded(
       child: Material(
         color: Colors.transparent,
-        child: GestureDetector(
+        child: InkWell(
           onTap: onTap,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Center(
               child: Text(
                 label,
                 style: TextStyle(
