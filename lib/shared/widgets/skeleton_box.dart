@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:readium/core/context_extension.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SkeletonBox extends StatelessWidget {
   final double height;
@@ -21,7 +20,7 @@ class SkeletonBox extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: Colors.white,
+        color: context.colorScheme.tertiary,
       ),
     );
   }

@@ -13,7 +13,7 @@ class ShimmerBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: context.colorScheme.surface,
-      highlightColor: context.colorScheme.background,
+      highlightColor: context.colorScheme.tertiary.withOpacity(0.5),
       child: child,
     );
   }
