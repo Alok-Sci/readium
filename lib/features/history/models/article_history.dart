@@ -8,7 +8,6 @@ class ArticleHistory {
   final String authorImageUrl;
   final String readTime;
   final String publishDate;
-  final bool isMemberOnly;
   final DateTime readAt;
 
   ArticleHistory({
@@ -21,7 +20,6 @@ class ArticleHistory {
     required this.authorImageUrl,
     required this.readTime,
     required this.publishDate,
-    required this.isMemberOnly,
     required this.readAt,
   });
 
@@ -36,7 +34,6 @@ class ArticleHistory {
       'authorImageUrl': authorImageUrl,
       'readTime': readTime,
       'publishDate': publishDate,
-      'isMemberOnly': isMemberOnly ? 1 : 0,
       'readAt': readAt.millisecondsSinceEpoch,
     };
   }
@@ -52,7 +49,6 @@ class ArticleHistory {
       authorImageUrl: map['authorImageUrl'] ?? '',
       readTime: map['readTime'] ?? '',
       publishDate: map['publishDate'] ?? '',
-      isMemberOnly: map['isMemberOnly'] == 1,
       readAt: DateTime.fromMillisecondsSinceEpoch(map['readAt']),
     );
   }
