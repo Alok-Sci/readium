@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readium/features/article/widgets/article_header.dart';
 import 'package:readium/features/article/widgets/article_screen_skeleton.dart';
 import 'package:readium/features/article/widgets/article_tag_widget.dart';
@@ -10,12 +9,8 @@ import 'package:readium/core/context_extension.dart';
 import 'package:readium/core/utils/app_assets.dart';
 import 'package:readium/features/article/models/article_data.dart';
 import 'package:readium/shared/widgets/network_error_screen.dart';
-import 'package:readium/shared/widgets/primary_text_button.dart';
 import 'package:readium/core/services/history_service.dart';
-import 'package:readium/shared/widgets/shimmer_network_image.dart';
-import 'package:readium/core/sizedbox_extension.dart';
 import 'package:universal_code_viewer/universal_code_viewer.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../models/article_repository.dart';
 import 'package:readium/main.dart';
 
@@ -226,101 +221,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
                           builder: (tagCtx) {
                             final href =
                                 tagCtx.element?.attributes['href'] ?? '';
-
-                            // Check if this is a story list link
-                            if (href.contains('https://medium.com/') &&
-                                href.contains('/list/')) {
-                              final h2Element =
-                                  tagCtx.element?.querySelector('h2');
-                              if (h2Element != null) {
-                                final title = h2Element.text.trim();
-
-                                // Extract background image URL from descendant div's style attribute
-                                String? imageUrl;
-                                final divElements =
-                                    tagCtx.element?.querySelectorAll('div');
-                                if (divElements != null) {
-                                  for (final div in divElements) {
-                                    final style = div.attributes['style'] ?? '';
-                                    final urlMatch = RegExp(
-                                            r"background-image:\s*url\('([^']+)'\)")
-                                        .firstMatch(style);
-                                    if (urlMatch != null) {
-                                      imageUrl = urlMatch.group(1);
-                                      break;
-                                    }
-                                  }
-                                }
-                                final image = ShimmerNetworkImage(
-                                  imageUrl!,
-                                  width: .8.sw,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                );
-
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 16),
-                                  decoration: BoxDecoration(
-                                    color: context.colorScheme.tertiary,
-                                    border: Border.all(
-                                        color: context
-                                            .colorScheme.tertiaryContainer),
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      20.height,
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                        ),
-                                        child: Text(
-                                          title,
-                                          style:
-                                              context.textTheme.headlineSmall,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                        ),
-                                        child: PrimaryTextButton(
-                                          text: 'View List',
-                                          onPressed: () {
-                                            launchUrl(Uri.parse(href));
-                                          },
-                                        ),
-                                      ),
-                                      20.height,
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: image,
-                                          ),
-                                          5.width,
-                                          Expanded(
-                                            flex: 2,
-                                            child: image,
-                                          ),
-                                          5.width,
-                                          Expanded(
-                                            flex: 1,
-                                            child: image,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }
-                            }
 
                             // Use default rendering for other links by returning the original element
                             return Text(
