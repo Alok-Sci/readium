@@ -20,9 +20,6 @@ class ArticleBottomBar extends StatefulWidget {
 }
 
 class _ArticleBottomBarState extends State<ArticleBottomBar> {
-  int _clapCount = 0;
-  int _commentCount = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,18 +36,6 @@ class _ArticleBottomBarState extends State<ArticleBottomBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Clap button
-          _BottomBarButton(
-              assetIcon: AppAssets.clap,
-              label: _clapCount == 0 ? '--' : _clapCount.toString(),
-              tooltip: 'Claps'),
-
-          // Comment button
-          _BottomBarButton(
-              assetIcon: AppAssets.comment,
-              label: _commentCount == 0 ? '--' : _commentCount.toString(),
-              tooltip: 'Comments'),
-
           // Open in Medium (conditionally shown)
           if (!widget.hideOpenInMedium)
             _BottomBarButton(
@@ -73,16 +58,12 @@ class _ArticleBottomBarState extends State<ArticleBottomBar> {
 
 class _BottomBarButton extends StatelessWidget {
   final String? assetIcon;
-  final String? label;
   final VoidCallback? onTap;
-  final bool isActive;
   final String? tooltip;
 
   const _BottomBarButton({
     this.assetIcon,
-    this.label,
     this.onTap,
-    this.isActive = false,
     this.tooltip,
   });
 
@@ -108,17 +89,6 @@ class _BottomBarButton extends StatelessWidget {
                         height: 24,
                         color: context.colorScheme.onSurface,
                       ),
-                    if (label != null) ...[
-                      const SizedBox(width: 4),
-                      Text(
-                        label!,
-                        style: context.textTheme.labelMedium?.copyWith(
-                          color: isActive
-                              ? context.colorScheme.secondary
-                              : context.colorScheme.tertiary,
-                        ),
-                      ),
-                    ],
                   ]),
             ),
           ),
