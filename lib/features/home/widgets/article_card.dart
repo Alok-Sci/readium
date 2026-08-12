@@ -121,13 +121,6 @@ class ArticleCard extends StatelessWidget {
             // Bottom metadata row
             Row(
               children: [
-                if (article.isMemberOnly) ...[
-                  Image.asset(
-                    AppAssets.star,
-                    height: 18,
-                  ),
-                  8.width,
-                ],
                 Text(
                   article.publishDate,
                   style: context.textTheme.labelMedium,

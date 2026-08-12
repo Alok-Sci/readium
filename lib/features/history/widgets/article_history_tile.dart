@@ -14,7 +14,6 @@ class ArticleHistoryTile extends StatelessWidget {
   final String readTime;
   final String publishDate;
   final String? coverImageUrl;
-  final bool isMemberOnly;
   final VoidCallback onTap;
   final VoidCallback onRemove;
   final DateTime? readAt;
@@ -29,7 +28,6 @@ class ArticleHistoryTile extends StatelessWidget {
     required this.readTime,
     required this.publishDate,
     this.coverImageUrl,
-    required this.isMemberOnly,
     required this.onTap,
     required this.onRemove,
     this.readAt,
@@ -117,13 +115,6 @@ class ArticleHistoryTile extends StatelessWidget {
             ),
             Row(
               children: [
-                if (isMemberOnly) ...[
-                  Image.asset(
-                    AppAssets.star,
-                    height: 18,
-                  ),
-                  8.width,
-                ],
                 Text(
                   publishDate,
                   style: context.textTheme.labelMedium,

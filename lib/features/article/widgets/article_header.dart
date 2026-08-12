@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readium/core/context_extension.dart';
 import 'package:readium/features/article/models/article_data.dart';
-import 'package:readium/features/article/widgets/member_only_story_chip.dart';
 import 'package:readium/shared/widgets/primary_text_button.dart';
 import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import 'package:readium/core/sizedbox_extension.dart';
@@ -23,9 +22,6 @@ class ArticleHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Member only story
-        if (article.isMemberOnly) MemberOnlyStoryChip(),
-
         // Title
         MediaQuery(
           data: MediaQuery.of(context).copyWith(

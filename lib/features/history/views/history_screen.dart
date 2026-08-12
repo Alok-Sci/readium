@@ -267,7 +267,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           readTime: item.readTime,
                           publishDate: item.publishDate,
                           coverImageUrl: item.coverImageUrl,
-                          isMemberOnly: item.isMemberOnly,
                           onRemove: () => _handleRemoveArticle(item),
                           onTap: () => _navigateToArticle(item.originalUrl),
                           readAt: item.readAt,
