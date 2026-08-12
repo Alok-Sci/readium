@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readium/core/utils/app_assets.dart';
 import 'package:readium/features/article/views/article_screen.dart';
 import 'package:readium/features/article/widgets/article_list_tile_skeleton.dart';
 import 'package:readium/core/context_extension.dart';
@@ -170,53 +171,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]
                   // Error State
                   else if (_errorMessage != null) ...[
-                    Center(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.error_outline,
-                            size: 48,
-                            color: context.colorScheme.error,
-                          ),
-                          16.height,
-                          Text(
-                            'Failed to load articles',
-                            style: context.textTheme.titleMedium,
-                          ),
-                          8.height,
-                          Text(
-                            _errorMessage!,
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: context.colorScheme.onSurfaceVariant,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.55,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              size: 30,
+                              color: context.colorScheme.secondary,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          16.height,
-                          ElevatedButton.icon(
-                            onPressed: _loadArticles,
-                            icon: const Icon(Icons.refresh),
-                            label: const Text('Retry'),
-                          ),
-                        ],
+                            16.height,
+                            Text(
+                              'Failed to load articles',
+                              style: context.textTheme.labelMedium,
+                            ),
+                            8.height,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Text(
+                                _errorMessage!,
+                                style: context.textTheme.bodySmall?.copyWith(
+                                  color: context.colorScheme.onSurfaceVariant,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            16.height,
+                            ElevatedButton.icon(
+                              onPressed: _loadArticles,
+                              icon: const Icon(Icons.refresh),
+                              label: const Text('Retry'),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ]
                   // Articles List
                   else if (_articles.isEmpty) ...[
-                    Center(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.article_outlined,
-                            size: 48,
-                            color: context.colorScheme.onSurfaceVariant,
-                          ),
-                          16.height,
-                          Text(
-                            'No articles found',
-                            style: context.textTheme.titleMedium,
-                          ),
-                        ],
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.55,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppAssets.articles,
+                              color: context.colorScheme.secondary,
+                              scale: .8,
+                            ),
+                            16.height,
+                            Text(
+                              'No articles found',
+                              style: context.textTheme.labelMedium,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ] else ...[
