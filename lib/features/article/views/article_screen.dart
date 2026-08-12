@@ -192,26 +192,19 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         TagExtension(
                           tagsToExtend: {'pre'},
                           builder: (tagCtx) {
-                            String language = '';
-                            // extract the code language name
-                            language = tagCtx.element!.children.first.classes
-                                .firstWhere((cl) => cl.startsWith('language-'))
-                                .split('language-')
-                                .last;
-
                             // display the code viewer
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 24.0,
-                                vertical: 12.0,
                               ),
                               child: UniversalCodeViewer(
                                 showLineNumbers: false,
+                                enableCopy: false,
                                 code: tagCtx.element!.text,
+                                isCodeLanguageView: false,
                                 style: context.isDarkTheme
                                     ? SyntaxHighlighterStyles.vscodeDark
                                     : SyntaxHighlighterStyles.vscodeLight,
-                                codeLanguage: language,
                               ),
                             );
                           },
