@@ -20,7 +20,6 @@ class HistoryService {
       authorImageUrl: article.authorImageUrl,
       readTime: article.readTime,
       publishDate: article.publishDate,
-      isMemberOnly: article.isMemberOnly,
       readAt: DateTime.now(),
     );
 

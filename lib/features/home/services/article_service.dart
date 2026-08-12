@@ -147,7 +147,6 @@ class ArticleService {
         authorImageUrl: authorImageUrl,
         readTime: formattedReadTime,
         publishDate: publishDate,
-        isMemberOnly: false, // Not provided in feed
         subtitle: subtitle,
       );
     } catch (e) {
