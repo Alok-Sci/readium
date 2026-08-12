@@ -78,7 +78,6 @@ class DatabaseHelper {
         authorImageUrl TEXT NOT NULL,
         readTime TEXT NOT NULL,
         publishDate TEXT NOT NULL,
-        isMemberOnly INTEGER NOT NULL,
         readAt INTEGER NOT NULL
       )
     ''');
