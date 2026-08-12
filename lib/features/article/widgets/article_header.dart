@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readium/core/context_extension.dart';
 import 'package:readium/features/article/models/article_data.dart';
-import 'package:readium/shared/widgets/primary_text_button.dart';
 import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import 'package:readium/core/sizedbox_extension.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ArticleHeader extends StatelessWidget {
   final ArticleData article;
@@ -89,15 +87,6 @@ class ArticleHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              12.width, // gap [file:1]
-
-              // follow button
-              PrimaryTextButton(
-                text: "Follow",
-                onPressed: () {
-                  launchUrl(Uri.parse(article.authorUrl));
-                },
-              )
             ],
           ),
         ),

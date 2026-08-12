@@ -7,13 +7,14 @@ import 'package:readium/shared/widgets/skeleton_box.dart';
 class ShimmerNetworkImage extends StatelessWidget {
   final String imageUrl;
   final double width;
-  final double height;
+  final double? height;
   final double borderRadius;
   final BoxFit fit;
+  
   const ShimmerNetworkImage(
     this.imageUrl, {
     required this.width,
-    required this.height,
+    this.height,
     this.borderRadius = 0,
     this.fit = BoxFit.contain,
     super.key,
@@ -21,6 +22,32 @@ class ShimmerNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // If height not specified, use intrinsic image dimensions
+    if (height == null) {
+      return CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: width,
+        fit: fit,
+        placeholder: (context, url) => ShimmerBox(
+          child: SkeletonBox(
+            width: width,
+            height: 200,
+            borderRadius: borderRadius,
+          ),
+        ),
+        errorWidget: (context, url, error) => Container(
+          width: width,
+          height: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            color: context.colorScheme.secondary,
+          ),
+          child: const Icon(Icons.broken_image_outlined, size: 48),
+        ),
+      );
+    }
+
+    // Fixed height mode (existing behavior)
     return CachedNetworkImage(
       imageUrl: imageUrl,
       imageBuilder: (context, imageProvider) => SizedBox(
@@ -39,7 +66,7 @@ class ShimmerNetworkImage extends StatelessWidget {
       placeholder: (context, url) => ShimmerBox(
         child: SkeletonBox(
           width: width,
-          height: height,
+          height: height!,
           borderRadius: borderRadius,
         ),
       ),
