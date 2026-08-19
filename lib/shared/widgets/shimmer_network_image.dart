@@ -5,12 +5,12 @@ import 'package:readium/shared/widgets/shimmer_box.dart';
 import 'package:readium/shared/widgets/skeleton_box.dart';
 
 class ShimmerNetworkImage extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final double width;
   final double? height;
   final double borderRadius;
   final BoxFit fit;
-  
+
   const ShimmerNetworkImage(
     this.imageUrl, {
     required this.width,
@@ -22,10 +22,12 @@ class ShimmerNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (imageUrl == null) return SizedBox();
+
     // If height not specified, use intrinsic image dimensions
     if (height == null) {
       return CachedNetworkImage(
-        imageUrl: imageUrl,
+        imageUrl: imageUrl!,
         width: width,
         fit: fit,
         placeholder: (context, url) => ShimmerBox(
@@ -49,7 +51,7 @@ class ShimmerNetworkImage extends StatelessWidget {
 
     // Fixed height mode (existing behavior)
     return CachedNetworkImage(
-      imageUrl: imageUrl,
+      imageUrl: imageUrl!,
       imageBuilder: (context, imageProvider) => SizedBox(
         width: width,
         height: height,
