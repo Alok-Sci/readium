@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:readium/core/services/history_service.dart';
-import 'package:readium/database/database_helper.dart';
 import 'package:readium/features/article/models/article_data.dart';
 import 'package:readium/features/article/models/article_tag.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -28,17 +27,13 @@ void main() {
         title: 'Test Article',
         subtitle: 'Test Subtitle',
         coverImageUrl: 'https://example.com/image.jpg',
-        coverImageAlt: 'Test Image',
         authorName: 'Test Author',
-        authorUrl: 'https://medium.com/@testauthor',
         authorImageUrl: 'https://example.com/author.jpg',
         readTime: '5 min read',
         publishDate: 'Jan 1, 2024',
-        isMemberOnly: false,
         tags: [
           ArticleTag(title: 'Flutter', href: 'https://medium.com/tag/flutter')
         ],
-        cleanedBodyHtml: '<p>Test content</p>',
       );
 
       await historyService.addToHistory(article);
@@ -55,15 +50,11 @@ void main() {
         title: 'First Article',
         subtitle: 'First Subtitle',
         coverImageUrl: null,
-        coverImageAlt: null,
         authorName: 'Test Author',
-        authorUrl: 'https://medium.com/@testauthor',
         authorImageUrl: 'https://example.com/author.jpg',
         readTime: '3 min read',
         publishDate: 'Jan 1, 2024',
-        isMemberOnly: false,
         tags: [],
-        cleanedBodyHtml: '<p>First content</p>',
       );
 
       final article2 = ArticleData(
@@ -71,15 +62,11 @@ void main() {
         title: 'Second Article',
         subtitle: 'Second Subtitle',
         coverImageUrl: null,
-        coverImageAlt: null,
         authorName: 'Test Author',
-        authorUrl: 'https://medium.com/@testauthor',
         authorImageUrl: 'https://example.com/author.jpg',
         readTime: '4 min read',
         publishDate: 'Jan 2, 2024',
-        isMemberOnly: true,
         tags: [],
-        cleanedBodyHtml: '<p>Second content</p>',
       );
 
       await historyService.addToHistory(article1);
@@ -101,15 +88,11 @@ void main() {
         title: 'Test Article',
         subtitle: 'Test Subtitle',
         coverImageUrl: null,
-        coverImageAlt: null,
         authorName: 'Test Author',
-        authorUrl: 'https://medium.com/@testauthor',
         authorImageUrl: 'https://example.com/author.jpg',
         readTime: '5 min read',
         publishDate: 'Jan 1, 2024',
-        isMemberOnly: false,
         tags: [],
-        cleanedBodyHtml: '<p>Test content</p>',
       );
 
       // Add article first time
@@ -134,15 +117,11 @@ void main() {
         title: 'Test Article',
         subtitle: 'Test Subtitle',
         coverImageUrl: null,
-        coverImageAlt: null,
         authorName: 'Test Author',
-        authorUrl: 'https://medium.com/@testauthor',
         authorImageUrl: 'https://example.com/author.jpg',
         readTime: '5 min read',
         publishDate: 'Jan 1, 2024',
-        isMemberOnly: false,
         tags: [],
-        cleanedBodyHtml: '<p>Test content</p>',
       );
 
       await historyService.addToHistory(article);
