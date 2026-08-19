@@ -2,10 +2,10 @@ class ArticleHistory {
   final int? id;
   final String originalUrl;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final String? coverImageUrl;
   final String authorName;
-  final String authorImageUrl;
+  final String? authorImageUrl;
   final String readTime;
   final String publishDate;
   final DateTime readAt;
@@ -14,10 +14,10 @@ class ArticleHistory {
     this.id,
     required this.originalUrl,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     this.coverImageUrl,
     required this.authorName,
-    required this.authorImageUrl,
+    this.authorImageUrl,
     required this.readTime,
     required this.publishDate,
     required this.readAt,
@@ -43,10 +43,10 @@ class ArticleHistory {
       id: map['id']?.toInt(),
       originalUrl: map['originalUrl'] ?? '',
       title: map['title'] ?? '',
-      subtitle: map['subtitle'] ?? '',
+      subtitle: map['subtitle'],
       coverImageUrl: map['coverImageUrl'],
       authorName: map['authorName'] ?? '',
-      authorImageUrl: map['authorImageUrl'] ?? '',
+      authorImageUrl: map['authorImageUrl'],
       readTime: map['readTime'] ?? '',
       publishDate: map['publishDate'] ?? '',
       readAt: DateTime.fromMillisecondsSinceEpoch(map['readAt']),

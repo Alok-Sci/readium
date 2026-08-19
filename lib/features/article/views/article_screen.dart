@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:readium/core/utils/url_helper.dart';
+import 'package:readium/features/article/widgets/article_code_block_builder.dart';
 import 'package:readium/features/article/widgets/article_header.dart';
 import 'package:readium/features/article/widgets/article_screen_skeleton.dart';
 import 'package:readium/features/article/widgets/article_tag_widget.dart';
@@ -8,9 +10,10 @@ import 'package:readium/features/article/widgets/display_settings_bottom_sheet.d
 import 'package:readium/core/context_extension.dart';
 import 'package:readium/core/utils/app_assets.dart';
 import 'package:readium/features/article/models/article_data.dart';
+import 'package:readium/infrastructure/freedium/sanitizers/markdown_html_sanitizer.dart';
 import 'package:readium/shared/widgets/network_error_screen.dart';
 import 'package:readium/core/services/history_service.dart';
-import 'package:universal_code_viewer/universal_code_viewer.dart';
+import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import '../models/article_repository.dart';
 import 'package:readium/main.dart';
 
@@ -124,6 +127,92 @@ class _ArticleScreenState extends State<ArticleScreen> {
     );
   }
 
+  /// Builds the Markdown style sheet for the article body.
+  ///
+  /// Two things that don't map 1:1 from the old `flutter_html` `style`
+  /// map, worth knowing about:
+  ///
+  /// - `MarkdownStyleSheet` has one [MarkdownStyleSheet.blockSpacing]
+  ///   value applied *between every block-level element* — there's no
+  ///   per-tag "top margin" the way `flutter_html`'s `Margins.only(top:
+  ///   ...)` gave you. [blockSpacing] below sets the baseline rhythm;
+  ///   `h3Padding`/`h4Padding` then add a bit more on top of that
+  ///   specifically before headings, to recreate "a new section gets
+  ///   more breathing room than a new paragraph."
+  /// - The old style map used *negative* bottom margins on `p`/`h3`/`h4`
+  ///   as a line-height compensation hack. `EdgeInsets` can't go
+  ///   negative here (`Padding` asserts non-negative insets), so that
+  ///   trick has no direct equivalent — the numbers below are tuned to
+  ///   look right without it rather than reproduce it exactly.
+  MarkdownStyleSheet _buildMarkdownStyleSheet(BuildContext context) {
+    final bodyStyle = _getBodyTextStyle(context);
+    final bodySmall = context.textTheme.bodySmall!;
+
+    return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+      blockSpacing: 16,
+
+      // paragraph
+      p: bodyStyle.copyWith(height: 1.4),
+      pPadding: const EdgeInsets.symmetric(horizontal: 24),
+
+      // links — plain underlined body text, not a themed link color;
+      // matches the old version, which never made links tappable either
+      a: bodyStyle.copyWith(decoration: TextDecoration.underline),
+
+      // h3 section heading
+      h3: TextStyle(
+        color: context.textTheme.headlineMedium!.color,
+        fontSize: context.textTheme.headlineMedium!.fontSize,
+        fontFamily: context.textTheme.headlineMedium!.fontFamily,
+        fontWeight: context.textTheme.headlineMedium!.fontWeight,
+        height: 1.2,
+      ),
+      h3Padding: const EdgeInsets.only(top: 12, left: 24, right: 24),
+
+      // h4 subsection heading
+      h4: TextStyle(
+        color: context.textTheme.headlineSmall!.color,
+        fontSize: context.textTheme.headlineSmall!.fontSize,
+        fontFamily: context.textTheme.headlineSmall!.fontFamily,
+        fontWeight: context.textTheme.headlineSmall!.fontWeight,
+        height: 1.2,
+      ),
+      h4Padding: const EdgeInsets.only(top: 4, left: 24, right: 24),
+
+      // inline code block
+      code: TextStyle(
+        backgroundColor: bodySmall.backgroundColor,
+        color: bodySmall.color,
+        fontSize: bodySmall.fontSize,
+        letterSpacing: bodySmall.letterSpacing,
+        height: bodySmall.height,
+        fontFamily: bodySmall.fontFamily,
+        fontFamilyFallback: bodySmall.fontFamilyFallback,
+      ),
+
+      codeblockDecoration: const BoxDecoration(), // No decoration
+      codeblockPadding: EdgeInsets.zero, // No padding
+
+      // blockquote
+      blockquote: bodyStyle.copyWith(fontStyle: FontStyle.italic),
+      blockquoteDecoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(color: bodyStyle.color!, width: 3),
+        ),
+      ),
+      blockquotePadding: const EdgeInsets.only(
+        left: 20,
+        right: 24,
+        top: 8,
+        bottom: 8,
+      ),
+
+      // lists
+      listBullet: bodyStyle.copyWith(height: 1.1, fontSize: context.textTheme.bodySmall?.fontSize),
+      listBulletPadding: const EdgeInsets.only(left: 12, right: 24),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,183 +263,31 @@ class _ArticleScreenState extends State<ArticleScreen> {
                     textScaleFactor: _textScaleFactor,
                   ),
 
-                  // HTML body
+                  // Markdown body
                   MediaQuery(
                     data: MediaQuery.of(context).copyWith(
                       textScaler: TextScaler.linear(_textScaleFactor),
                     ),
-                    child: Html(
-                      data: article.cleanedBodyHtml,
-                      doNotRenderTheseTags: {
-                        'style',
-                        'script',
-                        'iframe',
-                        'button',
-                        'nav'
-                      },
-                      extensions: [
-                        TagExtension(
-                          tagsToExtend: {'pre'},
-                          builder: (tagCtx) {
-                            // display the code viewer
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                              ),
-                              child: UniversalCodeViewer(
-                                showLineNumbers: false,
-                                enableCopy: false,
-                                code: tagCtx.element!.text,
-                                isCodeLanguageView: false,
-                                style: context.isDarkTheme
-                                    ? SyntaxHighlighterStyles.vscodeDark
-                                    : SyntaxHighlighterStyles.vscodeLight,
-                              ),
-                            );
-                          },
-                        ),
-                        TagExtension(
-                          tagsToExtend: {'a'},
-                          builder: (tagCtx) {
-                            final href =
-                                tagCtx.element?.attributes['href'] ?? '';
-
-                            // Use default rendering for other links by returning the original element
-                            return Text(
-                              tagCtx.element!.text,
-                              style: context.textTheme.bodyLarge?.copyWith(
-                                decoration: TextDecoration.underline,
-                              ),
-                            );
-                          },
-                        )
-                      ],
-                      style: {
-                        // paragraph
-                        'p': Style(
-                          color: _getBodyTextStyle(context).color,
-                          fontSize:
-                              FontSize(_getBodyTextStyle(context).fontSize!),
-                          fontFamily: _getBodyTextStyle(context).fontFamily,
-                          fontFamilyFallback:
-                              _getBodyTextStyle(context).fontFamilyFallback,
-                          lineHeight: LineHeight.number(1.4),
-                          margin: Margins.only(
-                            top: 12.08,
-                            bottom: -8.28, // -
-                            left: 24,
-                            right: 24,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: MarkdownBody(
+                        data: MarkdownHtmlSanitizer.stripPictureTags(article.markdownContent ?? ''),
+                        styleSheet: _buildMarkdownStyleSheet(context),
+                        softLineBreak: true,
+                        builders: {
+                          'pre': ArticleCodeBlockBuilder(
+                            context: context,
+                            isDarkTheme: context.isDarkTheme,
                           ),
-                        ),
-                        'li': Style(
-                            color: _getBodyTextStyle(context).color,
-                            fontSize:
-                                FontSize(_getBodyTextStyle(context).fontSize!),
-                            fontFamily: _getBodyTextStyle(context).fontFamily,
-                            fontFamilyFallback:
-                                _getBodyTextStyle(context).fontFamilyFallback,
-                            margin: Margins.only(top: 12, bottom: -8.28),
-                            listStylePosition: ListStylePosition.outside),
-                        // h3 section heading
-                        'h3': Style(
-                          color: context.textTheme.headlineMedium!.color,
-                          fontSize: FontSize(
-                              context.textTheme.headlineMedium!.fontSize!),
-                          fontFamily:
-                              context.textTheme.headlineMedium!.fontFamily,
-                          fontWeight:
-                              context.textTheme.headlineMedium!.fontWeight,
-                          margin: Margins.only(
-                            top: 28,
-                            bottom: -5.6, // -
-                            left: 24,
-                            right: 24,
+                        },
+                        imageBuilder: (uri, title, alt) => ShimmerNetworkImage(
+                          UrlHelper.absoluteMediumImageUrl(
+                            uri.toString(),
+                            size: 500,
                           ),
+                          width: double.infinity,
                         ),
-                        // h4 subsection
-                        'h4': Style(
-                          color: context.textTheme.headlineSmall!.color,
-                          fontSize: FontSize(
-                              context.textTheme.headlineSmall!.fontSize!),
-                          fontFamily:
-                              context.textTheme.headlineSmall!.fontFamily,
-                          fontWeight:
-                              context.textTheme.headlineSmall!.fontWeight,
-                          margin: Margins.only(
-                            top: 19.68,
-                            bottom: -9.96, // -
-                            left: 24,
-                            right: 24,
-                          ),
-                        ),
-                        'pre': Style(
-                          backgroundColor:
-                              context.textTheme.bodySmall!.backgroundColor,
-                          fontSize: FontSize(18),
-                          margin: Margins.only(right: 24, left: 24, top: 40),
-                          padding: HtmlPaddings.all(32),
-                          lineHeight: LineHeight.number(
-                              context.textTheme.labelSmall!.height!),
-                          border: Border.all(
-                              width: 1,
-                              color: context
-                                  .textTheme.bodySmall!.backgroundColor!),
-                        ),
-                        // inline code (no language-*)
-                        'code': Style(
-                          backgroundColor:
-                              context.textTheme.bodySmall!.backgroundColor,
-                          color: context.textTheme.bodySmall!.color,
-                          fontSize:
-                              FontSize(context.textTheme.bodySmall!.fontSize!),
-                          letterSpacing:
-                              context.textTheme.bodySmall!.letterSpacing,
-                          lineHeight: LineHeight.number(
-                              context.textTheme.bodySmall!.height!),
-                          fontFamily: context.textTheme.bodySmall!.fontFamily,
-                          fontFamilyFallback:
-                              context.textTheme.bodySmall!.fontFamilyFallback,
-                          padding: HtmlPaddings.symmetric(
-                            vertical: 2,
-                            horizontal: 4,
-                          ),
-                        ),
-                        // blockquote
-                        'blockquote': Style(
-                          margin: Margins.only(left: -4), // -
-                          fontStyle: FontStyle.italic,
-                          border: Border(
-                            left: BorderSide(
-                              color: context.textTheme.bodyLarge!.color!,
-                              width: 3,
-                            ),
-                          ),
-                        ),
-                        // anchor
-                        'a': Style(
-                          color: context.textTheme.bodyLarge!.color!,
-                        ),
-                        // image
-                        'img': Style(
-                          margin: Margins.only(
-                            top: 40,
-                            left: 24,
-                            right: 24,
-                          ),
-                        ),
-                        'figcaption': Style(
-                          fontFamily: context.textTheme.labelMedium!.fontFamily,
-                          fontSize: FontSize(
-                              context.textTheme.labelMedium!.fontSize!),
-                          color: context.textTheme.labelMedium!.color!,
-                          textAlign: TextAlign.center,
-                          margin: Margins.only(
-                            top: 10,
-                            left: 24,
-                            right: 24,
-                          ),
-                        ),
-                      },
+                      ),
                     ),
                   ),
 

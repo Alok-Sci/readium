@@ -9,9 +9,9 @@ import 'package:readium/core/sizedbox_extension.dart';
 
 class ArticleHistoryTile extends StatelessWidget {
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final String authorName;
-  final String authorImageUrl;
+  final String? authorImageUrl;
   final String readTime;
   final String publishDate;
   final String? coverImageUrl;
@@ -23,9 +23,9 @@ class ArticleHistoryTile extends StatelessWidget {
   const ArticleHistoryTile({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     required this.authorName,
-    required this.authorImageUrl,
+    this.authorImageUrl,
     required this.readTime,
     required this.publishDate,
     this.coverImageUrl,
@@ -45,6 +45,7 @@ class ArticleHistoryTile extends StatelessWidget {
           children: [
             Row(
               children: [
+                if(authorImageUrl != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: ShimmerNetworkImage(
@@ -86,15 +87,17 @@ class ArticleHistoryTile extends StatelessWidget {
                       8.height,
 
                       // Subtitle
-                      Text(
-                        subtitle,
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.colorScheme.onSurface.withOpacity(0.7),
-                          height: 1.4,
+                      if (subtitle != null)
+                        Text(
+                          subtitle!,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color:
+                                context.colorScheme.onSurface.withOpacity(0.7),
+                            height: 1.4,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
                       12.height,
 
                       // Read time and publish date
@@ -102,16 +105,17 @@ class ArticleHistoryTile extends StatelessWidget {
                   ),
                 ),
                 16.width,
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: ShimmerNetworkImage(
-                    coverImageUrl!,
-                    width: 80,
-                    height: 50,
-                    fit: BoxFit.cover,
-                    borderRadius: 1,
+                if (coverImageUrl != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: ShimmerNetworkImage(
+                      coverImageUrl!,
+                      width: 80,
+                      height: 50,
+                      fit: BoxFit.cover,
+                      borderRadius: 1,
+                    ),
                   ),
-                ),
               ],
             ),
             Row(

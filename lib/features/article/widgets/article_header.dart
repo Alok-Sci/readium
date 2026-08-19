@@ -4,6 +4,7 @@ import 'package:readium/core/context_extension.dart';
 import 'package:readium/features/article/models/article_data.dart';
 import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import 'package:readium/core/sizedbox_extension.dart';
+import 'package:readium/core/utils/date_util.dart';
 
 class ArticleHeader extends StatelessWidget {
   final ArticleData article;
@@ -30,8 +31,8 @@ class ArticleHeader extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 32.32,
-                bottom: 0, // -
-              ), // title margins [file:1]
+                bottom: 0,
+              ),
               child: Text(
                 article.title,
                 style: context.textTheme.displayLarge,
@@ -41,6 +42,7 @@ class ArticleHeader extends StatelessWidget {
         ),
 
         // Subtitle
+        if(article.subtitle != null)
         MediaQuery(
           data: MediaQuery.of(context).copyWith(
             textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
@@ -51,9 +53,9 @@ class ArticleHeader extends StatelessWidget {
               padding: const EdgeInsets.only(
                 top: 14.22,
                 bottom: 24,
-              ), // subtitle margins [file:1]
+              ),
               child: Text(
-                article.subtitle,
+                article.subtitle!,
                 style: context.textTheme.displaySmall,
               ),
             ),
@@ -62,7 +64,8 @@ class ArticleHeader extends StatelessWidget {
 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Text('${article.readTime} · ${article.publishDate}',
+          child: Text(
+              '${article.readTime} · ${article.publishDate.toFormattedDate}',
               style: context.textTheme.labelMedium),
         ),
         const SizedBox(height: 12),
@@ -72,12 +75,13 @@ class ArticleHeader extends StatelessWidget {
           child: Row(
             children: [
               ShimmerNetworkImage(
-                article.authorImageUrl,
+                article.authorImageUrl!,
                 width: 30,
                 height: 30,
                 borderRadius: 100,
+                fit: BoxFit.cover,
               ),
-              12.width, // gap [file:1]
+              12.width,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -93,24 +97,19 @@ class ArticleHeader extends StatelessWidget {
 
         // Cover image
         if (article.coverImageUrl != null) ...[
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 40,
-              ), // image margin-top [file:1]
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ShimmerNetworkImage(
-                      width: 1.sw - 48,
-                      height: 0.4.sh,
-                      article.coverImageUrl!,
-                    ),
-                  ),
-                ],
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 24, right: 24, top: 24),
+                child: ShimmerNetworkImage(
+                  width: 1.sw - 48,
+                  article.coverImageUrl!,
+                ),
               ),
-            ),
+              8.height,
+              if (article.coverImageCaption != null)
+                Text(article.coverImageCaption!, style: context.textTheme.labelMedium,)
+            ],
           ),
         ],
       ],

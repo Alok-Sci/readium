@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readium/core/utils/app_assets.dart';
+import 'package:readium/core/utils/date_util.dart';
+import 'package:readium/core/utils/url_helper.dart';
 import 'package:readium/features/article/views/article_screen.dart';
 import 'package:readium/features/article/widgets/article_list_tile_skeleton.dart';
 import 'package:readium/core/context_extension.dart';
@@ -7,9 +9,10 @@ import 'package:readium/core/services/share_handler.dart';
 import 'package:readium/core/services/deep_link_service.dart';
 import 'package:readium/core/sizedbox_extension.dart';
 import 'package:readium/shared/widgets/readium_search_bar.dart';
-import 'package:readium/features/home/services/article_service.dart';
-import 'package:readium/features/home/models/article.dart';
-import 'package:readium/features/home/widgets/article_card.dart';
+import 'package:readium/infrastructure/freedium/freedium_service.dart';
+import 'package:readium/features/home/models/home_feed_article.dart';
+import 'package:readium/features/home/widgets/home_feed_article_card.dart';
+import 'package:readium/infrastructure/freedium/models/feed_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,8 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final _urlController = TextEditingController();
   final _urlFocusNode = FocusNode();
   final DeepLinkService _deepLinkService = DeepLinkService();
+  final FreediumService _articleService = FreediumService();
   bool _isLoadingExploreArticles = true;
-  List<Article> _articles = [];
+  List<HomeFeedArticle> _articles = [];
   String? _errorMessage;
 
   void _navigateToArticle(String url, {bool fromExplore = false}) {
@@ -37,6 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// Convert ArticleFeedCard to Article model
+  HomeFeedArticle _convertToArticle(ArticleFeedCard card) {
+    return HomeFeedArticle(
+        endpoint: '/${card.slug}',
+        imageUrl: card.absoluteImageUrl,
+        title: card.title,
+        subtitle: card.excerpt,
+        topic: card.collectionName,
+        authorName: card.creatorName,
+        authorImageUrl:
+            UrlHelper.absoluteMediumImageUrl(card.collectionAvatarId),
+        readTime: card.readingTime,
+        publishDate: card.publishedAt.toFormattedDate);
+  }
+
   Future<void> _loadArticles() async {
     setState(() {
       _isLoadingExploreArticles = true;
@@ -44,9 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     try {
-      final articles = await ArticleService.fetchArticles();
+      final cards = await _articleService.fetchArticleCards();
       setState(() {
-        _articles = articles;
+        _articles = cards.map(_convertToArticle).toList();
         _isLoadingExploreArticles = false;
       });
     } catch (e) {
@@ -240,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            ArticleCard(
+                            HomeFeedArticleCard(
                               article: _articles[index],
                               onTap: () => _navigateToArticle(
                                   _articles[index].fullUrl,

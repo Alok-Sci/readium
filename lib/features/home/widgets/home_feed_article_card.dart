@@ -4,33 +4,17 @@ import 'package:readium/core/helpers/article_helpers.dart';
 import 'package:readium/core/utils/app_assets.dart';
 import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import 'package:readium/core/sizedbox_extension.dart';
-import '../models/article.dart';
+import '../models/home_feed_article.dart';
 
-class ArticleCard extends StatelessWidget {
-  final Article article;
+class HomeFeedArticleCard extends StatelessWidget {
+  final HomeFeedArticle article;
   final VoidCallback onTap;
 
-  const ArticleCard({
+  const HomeFeedArticleCard({
     super.key,
     required this.article,
     required this.onTap,
   });
-
-  String get _displayAuthor {
-    if (article.authorName != null) {
-      return article.authorName!;
-    } else if (article.authorName != null) {
-      return article.authorName!;
-    }
-    return 'Unknown Author';
-  }
-
-  String? get _authorImageUrl {
-    if (article.authorImageUrl != null) {
-      return article.authorImageUrl;
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +27,11 @@ class ArticleCard extends StatelessWidget {
             // Author info row
             Row(
               children: [
-                if (_authorImageUrl != null) ...[
+                if (article.absoluteAuthorImageUrl.isNotEmpty) ...[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: ShimmerNetworkImage(
-                      _authorImageUrl!,
+                      article.absoluteAuthorImageUrl,
                       width: 24,
                       height: 24,
                       fit: BoxFit.cover,
@@ -57,7 +41,7 @@ class ArticleCard extends StatelessWidget {
                 ],
                 Expanded(
                   child: Text(
-                    _displayAuthor,
+                    article.authorName,
                     style: context.textTheme.labelMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -104,11 +88,11 @@ class ArticleCard extends StatelessWidget {
                 16.width,
                 
                 // Cover image
-                if (article.imageUrl != null)
+                if (article.absoluteImageUrl.isNotEmpty)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: ShimmerNetworkImage(
-                      article.imageUrl!,
+                      article.absoluteImageUrl,
                       width: 80,
                       height: 50,
                       fit: BoxFit.cover,
