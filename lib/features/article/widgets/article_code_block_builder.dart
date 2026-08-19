@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:readium/core/context_extension.dart';
 import 'package:readium/features/article/services/article_code_syntax_highlighter_service.dart';
@@ -56,12 +57,15 @@ class ArticleCodeBlockBuilder extends MarkdownElementBuilder {
       child: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        child: highlightedWidget ??
-            // No grammar for this language — render as plain monospace text
-            SelectableText(
-              code,
-              style: _codeTextStyle,
-            ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: 1.sw - 48),
+          child: highlightedWidget ??
+              // No grammar for this language — render as plain monospace text
+              SelectableText(
+                code,
+                style: _codeTextStyle,
+              ),
+        ),
       ),
     );
   }
