@@ -3,6 +3,7 @@ import 'package:readium/core/context_extension.dart';
 import 'package:readium/core/helpers/article_helpers.dart';
 import 'package:readium/core/helpers/datetime_helper.dart';
 import 'package:readium/core/utils/app_assets.dart';
+import 'package:readium/core/utils/date_util.dart';
 import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import 'package:readium/core/sizedbox_extension.dart';
 
@@ -116,7 +117,7 @@ class ArticleHistoryTile extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  publishDate,
+                  publishDate.toFormattedDate,
                   style: context.textTheme.labelMedium,
                 ),
                 Spacer(),
