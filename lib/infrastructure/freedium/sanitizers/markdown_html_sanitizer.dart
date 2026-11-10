@@ -18,7 +18,14 @@ class MarkdownHtmlSanitizer {
     r'\bsrc="([^"]*)"',
     caseSensitive: false,
   );
+  static final _anchorTag = RegExp(
+    r'<a\b[^>]*>(.*?)</a>',
+    caseSensitive: false,
+    dotAll: true,
+  );
+  
   static final _altAttr = RegExp(r'\balt="([^"]*)"', caseSensitive: false);
+  static final _hrefAttr = RegExp(r'\bhref="([^"]*)"', caseSensitive: false);
 
   /// Replaces every `<picture>...</picture>` block with an equivalent
   /// `![alt](src)` Markdown image, extracted from the `<img>` tag inside.
@@ -37,6 +44,23 @@ class MarkdownHtmlSanitizer {
           rawAlt.isEmpty || rawAlt.toLowerCase() == 'none' ? '' : rawAlt;
 
       return '![$alt]($src)';
+    });
+  }
+
+  /// Replaces every `<a href="...">...</a>` tag with an equivalent
+  /// `[text](href)` Markdown link, using the inner text as the label.
+  static String stripAnchorTags(String markdown) {
+    return markdown.replaceAllMapped(_anchorTag, (match) {
+      final tag = match.group(0)!;
+      final href = _hrefAttr.firstMatch(tag)?.group(1);
+      if (href == null || href.isEmpty) return match.group(1) ?? '';
+
+      // Strip any nested HTML tags from the inner content to get plain text.
+      final innerText =
+          (match.group(1) ?? '').replaceAll(RegExp(r'<[^>]+>'), '').trim();
+      if (innerText.isEmpty) return '';
+
+      return '[$innerText]($href)';
     });
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readium/core/context_extension.dart';
 import 'package:readium/features/article/models/article_data.dart';
+import 'package:readium/infrastructure/freedium/sanitizers/markdown_html_sanitizer.dart';
 import 'package:readium/shared/widgets/shimmer_network_image.dart';
 import 'package:readium/core/sizedbox_extension.dart';
 import 'package:readium/core/utils/date_util.dart';
@@ -42,25 +44,25 @@ class ArticleHeader extends StatelessWidget {
         ),
 
         // Subtitle
-        if(article.subtitle != null)
-        MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+        if (article.subtitle != null)
+          MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
+            ),
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 14.22,
-                bottom: 24,
-              ),
-              child: Text(
-                article.subtitle!,
-                style: context.textTheme.displaySmall,
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 14.22,
+                  bottom: 24,
+                ),
+                child: Text(
+                  article.subtitle!,
+                  style: context.textTheme.displaySmall,
+                ),
               ),
             ),
           ),
-        ),
 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -108,7 +110,22 @@ class ArticleHeader extends StatelessWidget {
               ),
               8.height,
               if (article.coverImageCaption != null)
-                Text(article.coverImageCaption!, style: context.textTheme.labelMedium,)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: MarkdownBody(
+                    data: MarkdownHtmlSanitizer.stripAnchorTags(
+                        article.coverImageCaption!),
+                    styleSheet: MarkdownStyleSheet(
+                      p: context.textTheme.labelMedium,
+                      a: context.textTheme.labelMedium?.copyWith(
+                        decoration: TextDecoration.underline,
+                        decorationColor: context.textTheme.labelMedium?.color,
+                      ),
+                    ),
+                    shrinkWrap: true,
+                    fitContent: true,
+                  ),
+                )
             ],
           ),
         ],
