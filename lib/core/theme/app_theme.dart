@@ -27,6 +27,7 @@ class AppTheme {
   static const Color errorColor = Color(0xFFC94A4A); // #c94a4a
   static const Color primaryColor = Color(0xFF1A8917); // #1a8917
 
+  static const Color vs2015ThemeBg = Color(0xff1e1e1e); // vscode theme dark background
 
   /// Light Mode Colors (Mobile)
   static const Color lightBackground = Color(0xFFFFFFFF); // #fff

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:markdown/markdown.dart' as md;
-import 'package:readium/core/context_extension.dart';
+import 'package:readium/core/theme/app_theme.dart';
 import 'package:readium/features/article/services/article_code_syntax_highlighter_service.dart';
 
 /// Renders fenced code blocks from the article's Markdown body via
@@ -14,9 +14,8 @@ import 'package:readium/features/article/services/article_code_syntax_highlighte
 /// this` ``) never produce a `pre` element and fall straight through to
 /// the ordinary [MarkdownStyleSheet.code] text style.
 class ArticleCodeBlockBuilder extends MarkdownElementBuilder {
-  ArticleCodeBlockBuilder({required this.isDarkTheme, required this.context});
+  ArticleCodeBlockBuilder({required this.isDarkTheme});
 
-  final BuildContext context;
   final bool isDarkTheme;
 
   static const _codeFontFamily = 'source-code-pro';
@@ -40,6 +39,7 @@ class ArticleCodeBlockBuilder extends MarkdownElementBuilder {
     final code = (codeElement ?? element).textContent;
     final language = _languageFromClass(codeElement?.attributes['class']);
 
+    // Get syntax-highlighted widget using the service
     final highlightedWidget =
         ArticleCodeSyntaxHighlighterService.instance.highlightWidget(
       code,
@@ -48,20 +48,28 @@ class ArticleCodeBlockBuilder extends MarkdownElementBuilder {
       baseStyle: _codeTextStyle,
     );
 
+    // Use theme colors directly without storing BuildContext
+    final borderColor =
+        isDarkTheme ? AppTheme.darkCodeBorder : AppTheme.lightCodeBorder;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: context.colorScheme.tertiaryContainer),
+        color: AppTheme.vs2015ThemeBg,
+        border: Border.all(color: borderColor),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
       child: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: 1.sw - 48),
+        child: Container(
+          constraints: BoxConstraints(
+            minWidth: 1.sw - 48 - 24, // Full width minus margins and padding
+          ),
+          alignment: Alignment.centerLeft,
           child: highlightedWidget ??
               // No grammar for this language — render as plain monospace text
-              SelectableText(
+              Text(
                 code,
                 style: _codeTextStyle,
               ),

@@ -639,8 +639,9 @@ class ArticleCodeSyntaxHighlighterService {
       code,
       language: resolvedLang,
       theme: isDark ? darkTheme : lightTheme,
-      padding: EdgeInsets.only(right: 24, left: 24, top: 18, bottom: 8),
+      padding: EdgeInsets.only(right: 24, left: 24, top: 18, bottom: 0),
       textStyle: baseStyle,
+      tabSize: 4,
     );
   }
 

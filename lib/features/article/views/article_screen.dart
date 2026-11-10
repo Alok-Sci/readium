@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:readium/core/utils/url_helper.dart';
@@ -179,7 +181,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
       ),
       h4Padding: const EdgeInsets.only(top: 4, left: 24, right: 24),
 
-      // inline code block
+      // inline code
       code: TextStyle(
         backgroundColor: bodySmall.backgroundColor,
         color: bodySmall.color,
@@ -190,8 +192,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
         fontFamilyFallback: bodySmall.fontFamilyFallback,
       ),
 
-      codeblockDecoration: const BoxDecoration(), // No decoration
-      codeblockPadding: EdgeInsets.zero, // No padding
+      // code block - handled by custom builder
+      codeblockDecoration: const BoxDecoration(),
+      codeblockPadding: EdgeInsets.zero,
 
       // blockquote
       blockquote: bodyStyle.copyWith(fontStyle: FontStyle.italic),
@@ -249,6 +252,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
             final article = snapshot.data!;
 
+            log(MarkdownHtmlSanitizer.stripPictureTags(article.markdownContent ?? ''));
+
             // Save article to history when successfully loaded
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _historyService.addToHistory(article);
@@ -277,7 +282,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         selectable: true,
                         builders: {
                           'pre': ArticleCodeBlockBuilder(
-                            context: context,
                             isDarkTheme: context.isDarkTheme,
                           ),
                         },
