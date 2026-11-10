@@ -274,6 +274,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         data: MarkdownHtmlSanitizer.stripPictureTags(article.markdownContent ?? ''),
                         styleSheet: _buildMarkdownStyleSheet(context),
                         softLineBreak: true,
+                        selectable: true,
                         builders: {
                           'pre': ArticleCodeBlockBuilder(
                             context: context,
