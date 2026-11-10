@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:readium/core/theme/app_theme.dart';
 import 'package:readium/core/utils/url_helper.dart';
 import 'package:readium/features/article/widgets/article_code_block_builder.dart';
 import 'package:readium/features/article/widgets/article_header.dart';
@@ -88,33 +89,16 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
     switch (_fontFamily) {
       case 'source-serif-pro':
-        fontFamily = 'source-serif-pro';
-        fontFamilyFallback = const [
-          'Georgia',
-          'Cambria',
-          'Times New Roman',
-          'Times',
-          'serif',
-        ];
+        fontFamily = AppTheme.sourceSerifPro.fontFamily;
+        fontFamilyFallback = AppTheme.sourceSerifPro.fontFamilyFallback;
         break;
       case 'sohne':
-        fontFamily = 'sohne';
-        fontFamilyFallback = const [
-          'Helvetica Neue',
-          'Helvetica',
-          'Arial',
-          'sans-serif',
-        ];
+        fontFamily = AppTheme.sohne.fontFamily;
+        fontFamilyFallback = AppTheme.sohne.fontFamilyFallback;
         break;
       case 'source-code-pro':
-        fontFamily = 'source-code-pro';
-        fontFamilyFallback = const [
-          'Menlo',
-          'Monaco',
-          'Courier New',
-          'Courier',
-          'monospace',
-        ];
+        fontFamily = AppTheme.sourceCodePro.fontFamily;
+        fontFamilyFallback = AppTheme.sourceCodePro.fontFamilyFallback;
         break;
       case 'system':
       default:
@@ -183,7 +167,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
       // inline code
       code: TextStyle(
-        backgroundColor: bodySmall.backgroundColor,
+        backgroundColor: bodySmall.background,
         color: bodySmall.color,
         fontSize: bodySmall.fontSize,
         letterSpacing: bodySmall.letterSpacing,
@@ -211,7 +195,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
       ),
 
       // lists
-      listBullet: bodyStyle.copyWith(height: 1.1, fontSize: context.textTheme.bodySmall?.fontSize),
+      listBullet: bodyStyle.copyWith(
+          height: 1.1, fontSize: context.textTheme.bodySmall?.fontSize),
       listBulletPadding: const EdgeInsets.only(left: 12, right: 24),
     );
   }
@@ -252,7 +237,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
             final article = snapshot.data!;
 
-            log(MarkdownHtmlSanitizer.stripPictureTags(article.markdownContent ?? ''));
+            log(MarkdownHtmlSanitizer.stripPictureTags(
+                article.markdownContent ?? ''));
 
             // Save article to history when successfully loaded
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -276,7 +262,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24.0),
                       child: MarkdownBody(
-                        data: MarkdownHtmlSanitizer.stripPictureTags(article.markdownContent ?? ''),
+                        data: MarkdownHtmlSanitizer.stripPictureTags(
+                            article.markdownContent ?? ''),
                         styleSheet: _buildMarkdownStyleSheet(context),
                         softLineBreak: true,
                         selectable: true,

@@ -23,23 +23,24 @@ class AppTheme {
         tertiaryContainer: darkCodeBorder,
         error: errorColor,
       );
+
   /// Error and Primary Colors
   static const Color errorColor = Color(0xFFC94A4A); // #c94a4a
   static const Color primaryColor = Color(0xFF1A8917); // #1a8917
 
-  static const Color vs2015ThemeBg = Color(0xff1e1e1e); // vscode theme dark background
+  static const Color vs2015ThemeBg =
+      Color(0xff1e1e1e); // vscode theme dark background
 
   /// Light Mode Colors (Mobile)
   static const Color lightBackground = Color(0xFFFFFFFF); // #fff
-  static const Color lightSurface = Color.fromARGB(255, 255, 255, 255); // #fafafa
+  static const Color lightSurface =
+      Color.fromARGB(255, 255, 255, 255); // #fafafa
   static const Color lightPrimaryText = Color(0xFF242424); // #242424 (headings)
   static const Color lightSecondaryText =
       Color(0xFF6B6B6B); // #6b6b6b (subtitle/meta)
   static const Color lightCodeBg = Color(0xFFF2F2F2); // #f7f7f7
   static const Color lightCodeBorder = Color(0xFFE1E1E1); // #e1e1e1
   static const Color lightAccent = Color(0xFF00AB6B); // Medium green
-   
-
 
   /// Dark Mode Colors (Mobile)
   static const Color darkBackground = Color(0xFF121212); // #121212
@@ -58,6 +59,12 @@ class AppTheme {
   /// Font Families (Medium's custom stack)
   static final TextStyle sohne = TextStyle(
     fontFamily: 'sohne',
+    fontFamilyFallback: const [
+      'Helvetica Neue',
+      'Helvetica',
+      'Arial',
+      'sans-serif',
+    ],
     fontWeight: FontWeight.w400,
   );
   static final TextStyle sourceSerifPro = TextStyle(
@@ -203,7 +210,7 @@ class AppTheme {
   static TextStyle darkCodeInline(BuildContext context) =>
       lightCodeInline(context).copyWith(
         color: darkPrimaryText,
-        backgroundColor: darkCodeBg, 
+        backgroundColor: darkCodeBg,
       );
 
   static TextStyle darkCodeBlock(BuildContext context) =>
@@ -222,9 +229,7 @@ class AppTheme {
           backgroundColor: lightBackground,
           foregroundColor: lightPrimaryText,
           surfaceTintColor: lightBackground,
-          iconTheme: IconThemeData(
-            color: lightSecondaryText
-          ),
+          iconTheme: IconThemeData(color: lightSecondaryText),
           elevation: 4,
         ),
         textTheme: TextTheme(
